@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ar">
     @include('partials.head')
-    <body>
+    <body dir="ltr">
         <div class="container-scroller">
-           
+        
             <div class="container-fluid page-body-wrapper">
                 @include('partials.navbar')
                 <div class="main-panel" >
