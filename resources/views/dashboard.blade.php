@@ -1,159 +1,227 @@
-@extends('layout')
+@extends('Admin.layout')
+
 @section('main')
-<div class="row" dir="rtl">
-  <div class="col-sm-4 grid-margin">
-    <div class="card">
-      <div class="card-body">
-        <h3>المستخدمين</h3>
-        <div class="row">
-          <div class="col-8 col-sm-12 col-xl-8 my-auto">
-            <div class="d-flex d-sm-block d-md-flex align-items-center">
-              <h2 class="mb-0">{{ $users }}</h2>
-            </div>
-          </div>
-          <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
-            <i class="icon-lg fa fa-users text-primary ml-auto"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-4 grid-margin">
-    <div class="card">
-      <div class="card-body">
-        <h3>المنتجات</h3>
-        <div class="row">
-          <div class="col-8 col-sm-12 col-xl-8 my-auto">
-            <div class="d-flex d-sm-block d-md-flex align-items-center">
-              <h2 class="mb-0">{{ $products }}</h2>
-            </div>
-          </div>
-          <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
-            <i class="icon-lg fa fa-cubes text-danger ml-auto"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-4 grid-margin">
-    <div class="card">
-      <div class="card-body">
-        <h3>الفئات</h3>
-        <div class="row">
-          <div class="col-8 col-sm-12 col-xl-8 my-auto">
-            <div class="d-flex d-sm-block d-md-flex align-items-center">
-              <h2 class="mb-0">{{ $categories }}</h2>
-            </div>
-          </div>
-          <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
-            <i class="icon-lg fa fa-tags text-success ml-auto"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-4 grid-margin">
-    <div class="card">
-      <div class="card-body">
-        <h3>الفئات الفرعية</h3>
-        <div class="row">
-          <div class="col-8 col-sm-12 col-xl-8 my-auto">
-            <div class="d-flex d-sm-block d-md-flex align-items-center">
-              <h2 class="mb-0">{{ $subcategories }}</h2>
-            </div>
-          </div>
-          <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
-            <i class="icon-lg fa fa-sitemap text-success ml-auto"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-4 grid-margin">
-    <div class="card">
-      <div class="card-body">
-        <h3>الإضافات</h3>
-        <div class="row">
-          <div class="col-8 col-sm-12 col-xl-8 my-auto">
-            <div class="d-flex d-sm-block d-md-flex align-items-center">
-              <h2 class="mb-0">{{ $additions }}</h2>
-            </div>
-          </div>
-          <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
-            <i class="icon-lg fa fa-plus-circle text-info ml-auto"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-4 grid-margin">
-    <div class="card">
-      <div class="card-body">
-        <h3>الطلبات</h3>
-        <div class="row">
-          <div class="col-8 col-sm-12 col-xl-8 my-auto">
-            <div class="d-flex d-sm-block d-md-flex align-items-center">
-              <h2 class="mb-0">{{ $orders }}</h2>
-            </div>
-          </div>
-          <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
-            <i class="icon-lg fa fa-shopping-cart text-warning ml-auto"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- Bootstrap Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
 
-<!-- New Users Chart Section -->
-<div class="col-12">
-  <div class="card rounded">
-    <div class="card-body">
-      <h3 class="card-title"> المستخدمين الجدد <span>| اخر اسبوع</span></h3>
-      <div id="newUsersChart"></div>
-      <script>
-     document.addEventListener("DOMContentLoaded", () => {
-    const last7Days = @json(array_keys($last7DaysUsers->toArray()));
-    const dailyUsers = @json(array_values($last7DaysUsers->toArray()));
+<div class="container dashboard">
+    <div class="row">
+        <!-- New Users Today Card -->
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card info-card customers-card">
+                <div class="card-body">
+                    <h5 class="card-title">New Users <span>| Today</span></h5>
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-person-plus"></i>
+                        </div>
+                        <div class="ps-3">
+                            {{-- <h6>{{ $newUsersToday }}</h6> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Doctors Card -->
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card info-card customers-card">
+                <div class="card-body">
+                    <h5 class="card-title">Doctors <span>| Total</span></h5>
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-heart-pulse"></i>
+                        </div>
+                        <div class="ps-3">
+                            {{-- <h6>{{ $totalDoctors }}</h6> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    new ApexCharts(document.querySelector("#newUsersChart"), {
-        series: [{ name: 'New Users', data: dailyUsers }],
-        chart: { height: 350, type: 'area', toolbar: { show: false } },
-        markers: { size: 4 },
-        colors: ['black'],
-        fill: {
-            type: "gradient",
-            gradient: {
-                shadeIntensity: 1,
-                opacityFrom: 0.3,
-                opacityTo: 0.4,
-                stops: [0, 90, 100]
-            }
-        },
-        dataLabels: { enabled: false },
-        stroke: { curve: 'smooth', width: 2 },
-        xaxis: { type: 'datetime', categories: last7Days },
-        yaxis: {
-            labels: {
-                formatter: function (val) { return Math.round(val) + " مستخدم"; }
+        <!-- Total Pharmacies Card -->
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card info-card customers-card">
+                <div class="card-body">
+                    <h5 class="card-title">Pharmacies <span>| Total</span></h5>
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-prescription"></i>
+                        </div>
+                        <div class="ps-3">
+                            {{-- <h6>{{ $totalPharmacies }}</h6> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <!-- Total Medications Card -->
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="card info-card customers-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Medications <span>| Total</span></h5>
+                        <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                <i class="bi bi-capsule"></i>
+                            </div>
+                            <div class="ps-3">
+                                {{-- <h6>{{ $totalMedications }}</h6> --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <!-- Total Representatives Commercial -->
+        
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card info-card customers-card">
+                <div class="card-body">
+                    <h5 class="card-title">Representatives <span>| Commerce</span></h5>
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-briefcase"></i>
+                        </div>
+                        <div class="ps-3">
+                            {{-- <h6>{{ $totalCommercial }}</h6> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Total Representatives Scientific -->
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card info-card customers-card">
+                <div class="card-body">
+                    <h5 class="card-title">Representatives <span>| Scientific</span></h5>
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-eyedropper"></i>
+                        </div>
+                        <div class="ps-3">
+                            {{-- <h6>{{ $totalScientific }}</h6> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reports Section -->
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Users <span>| Last week</span></h5>
+
+                    <!-- Line Chart -->
+                    <div id="reportsChart"></div>
+
+{{-- <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const last7Days = @json(array_keys($last7Days));
+        const newUserCounts = @json(array_values($last7Days));
+        new ApexCharts(document.querySelector("#reportsChart"), {
+            series: [{
+                name: 'New Users',
+                data: newUserCounts,
+            }],
+            chart: {
+                height: 350,
+                type: 'area',
+                toolbar: {
+                    show: false
+                },
             },
-            min: 0,
-            forceNiceScale: true
-        },
-        tooltip: {
-            x: { format: 'dd/MM/yy' },
-            theme: 'dark',
-            style: {
-                fontSize: '12px',
-                fontFamily: 'Arial, sans-serif',
-                color: '#000000'
+            markers: {
+                size: 4
+            },
+            colors: ['#4154f1'],
+            fill: {
+                type: "gradient",
+                gradient: {
+                    shadeIntensity: 1,
+                    opacityFrom: 0.3,
+                    opacityTo: 0.4,
+                    stops: [0, 90, 100]
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'smooth',
+                width: 2
+            },
+            xaxis: {
+                type: 'datetime',
+                categories: last7Days,
+            },
+            yaxis: {
+                labels: {
+                    formatter: function (val) {
+                        return Math.round(val); // Ensures whole numbers on y-axis
+                    }
+                },
+                min: 0, // Optional: ensures the y-axis starts from 0
+                forceNiceScale: true // Optional: ensures nice scaling of y-axis
+            },
+            tooltip: {
+                x: {
+                    format: 'dd/MM/yy'
+                },
             }
-        }
-    }).render();
-});
+        }).render();
+    });
+</script>  --}}
 
-      </script>
+
+                    <!-- End Line Chart -->
+
+                </div>
+
+            </div>
+        </div><!-- End Reports -->
+        
     </div>
-  </div>
 </div>
 
-@endsection
+<style>
+    .dashboard .row {
+        justify-content: center;
+    }
+
+    .dashboard .info-card {
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        border-radius: 12px;
+        margin-top: 15px;
+        min-height: 120px; 
+
+    }
+
+    .dashboard .card-icon {
+        color: #4154f1 !important;
+        background: #fefefe !important;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-size: 45px;
+    }
+
+    .dashboard h5.card-title {
+        font-size: 1.5rem;
+    }
+
+    .dashboard h6 {
+        font-size: 2rem;
+    }
+
+    .dashboard .container {
+        max-width: 1000px;
+    }
+</style>
+
+{{-- @endsection --}}
