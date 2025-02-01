@@ -5,16 +5,28 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\patient\StorePatientRequest;
 use App\Models\Patient;
+use Carbon\Carbon;
 
 class PatientController extends Controller
 {
     public function index()
     {
-        $patients = Patient::all();
+        $query = Patient::query();
+
+        if (request()->has('name')) {
+            $query->where('name', 'like', '%' . request('name') . '%');
+        }
+
+        if (request()->has('ID_number')) {
+            $query->where('ID_number', 'like', '%' . request('ID_number') . '%');
+        }
+
+        $patients = $query->get();
         return view('patients.index', compact('patients'));
     }
 
-    public function show($id){
+    public function show($id)
+    {
         $patient = Patient::find($id);
         return response()->json($patient);
     }
