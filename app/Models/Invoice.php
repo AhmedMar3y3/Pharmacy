@@ -13,7 +13,6 @@ class Invoice extends Model
         "patient_id",
         "date",
         "total_support",
-        "PDF_path",
     ];
 
     public function patient(){

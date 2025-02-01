@@ -15,7 +15,8 @@ class MedicationController extends Controller
         return view('medications.index', compact('medications'));
     }
 
-    public function show($id){
+    public function show($id)
+    {
         $medication = Medication::find($id);
         return response()->json($medication);
     }

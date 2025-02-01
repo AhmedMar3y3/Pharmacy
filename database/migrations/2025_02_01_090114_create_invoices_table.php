@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('patient_id')->constrained()->onDelete('cascade');
             $table->date('date')->default(now());
             $table->decimal('total_support',10,2)->default(0);
-            $table->string('PDF_path')->nullable();
             $table->timestamps();
         });
     }
