@@ -108,6 +108,12 @@
       <li class="nav-heading">الصفحات</li>
 
       <li class="nav-item">
+        <a class="nav-link {{ request()->routeIs('medications.index') ? 'active' : '' }}" href="{{ route('medications.index') }}">
+            <i class="bi bi-capsule"></i>
+          <span>الأدوية</span>
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link {{ request()->routeIs('invoices.index') ? 'active' : '' }}" href="{{ route('invoices.index') }}">
           <i class="bi bi-tags"></i>
           <span>الفئات</span>

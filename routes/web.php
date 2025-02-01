@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\MedicationController;
 use App\Http\Controllers\Admin\PatientController;
 use App\Http\Controllers\Admin\InvoiceController;
+use App\Http\Controllers\Admin\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/dashboard',[HomeController::class, 'dashboard'])->name('dashboard');
 // Patient Routes
 Route::get('/patients', [PatientController::class, 'index'])->name('patients.index');
 Route::get('/patients/{id}', [PatientController::class, 'show'])->name('patients.show');
@@ -27,8 +29,8 @@ Route::delete('/delete-patient', [PatientController::class, 'destroy'])->name('p
 Route::get('/medications', [MedicationController::class, 'index'])->name('medications.index');
 Route::get('/medications/{id}', [MedicationController::class, 'show'])->name('medications.show');
 Route::post('/store-medication', [MedicationController::class, 'store'])->name('medications.store');
-Route::put('/update-medication', [MedicationController::class, 'update'])->name('medications.update');
-Route::delete('/delete-medication', [MedicationController::class, 'destroy'])->name('medications.destroy');
+Route::put('/update-medication/{id}', [MedicationController::class, 'update'])->name('medications.update');
+Route::delete('/delete-medication/{id}', [MedicationController::class, 'destroy'])->name('medications.destroy');
 
 
 Route::get('/invoices', [InvoiceController::class,'index'])->name('invoices.index');
