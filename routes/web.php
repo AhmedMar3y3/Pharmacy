@@ -5,7 +5,7 @@ use App\Http\Controllers\Admin\PatientController;
 use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\Admin\HomeController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\user\AuthController;
+use App\Http\Controllers\Admin\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,13 +23,10 @@ use App\Http\Controllers\user\AuthController;
 
 
 
-Route::get('/login', [AuthController::class, 'loadLogin'])->name('login.page');
+Route::get('/', [AuthController::class, 'loadLogin'])->name('login.page');
 Route::post('/login-user', [AuthController::class, 'login'])->name('login');
+Route::middleware(['auth:sanctum'])->group(function () {
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-
-// Route::get('/register', [AuthController::class, 'registerHome'])->name('register.home');
-// Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/dashboard',[HomeController::class, 'dashboard'])->name('dashboard');
 // Patient Routes
 Route::get('/patients', [PatientController::class, 'index'])->name('patients.index');
@@ -47,3 +44,4 @@ Route::delete('/delete-medication/{id}', [MedicationController::class, 'destroy'
 
 
 Route::get('/invoices', [InvoiceController::class,'index'])->name('invoices.index');
+});
