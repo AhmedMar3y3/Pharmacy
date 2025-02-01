@@ -5,18 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Patient extends Model
+class Report extends Model
 {
     use HasFactory;
-
     protected $fillable = [
-        'name',
-        'ID',
-        'phone',
-        'address',
-    ];
+       'date',
+       'total_support',
+    ] ;
 
-    public function invoices(){
-        return $this->hasMany(Invoice::class);
+    public function reportDetails()
+    {
+        return $this->hasMany(ReportDetail::class);
     }
 }
