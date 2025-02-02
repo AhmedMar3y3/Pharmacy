@@ -15,6 +15,7 @@
     <i class="fas fa-plus"></i> إضافة دواء جديد
 </button>
 
+
     </div>
     <table class="table table-bordered">
         <thead>
@@ -48,6 +49,32 @@
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger btn-sm">
                             <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+                    <td>{{ $medication->name }}</td>
+                    <td>{{ $medication->quantity }}</td>
+                    <td>{{ $medication->price }}</td>
+                    <td>{{ $medication->supported_price }}</td>
+                    <td>
+                        <form action="{{ route('medications.destroy', $medication->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('هل أنت متأكد أنك تريد حذف هذا الدواء؟');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
+
+                        <button type="button" class="btn btn-warning btn-sm edit-btn" 
+                                data-bs-toggle="modal" data-bs-target="#editModal"
+                                data-id="{{ $medication->id }}"
+                                data-name="{{ $medication->name }}"
+                                data-quantity="{{ $medication->quantity }}"
+                                data-price="{{ $medication->price }}"
+                                data-supported-price="{{ $medication->supported_price }}">
+                            <i class="fas fa-edit"></i>
+>>>>>>> 64b645cd6ea1490a872d4bf6ae68001d824ca3f9
                         </button>
                     </form>
                 </td>
