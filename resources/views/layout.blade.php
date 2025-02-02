@@ -122,7 +122,7 @@
 
       <li class="nav-item">
         <a class="nav-link {{ request()->routeIs('clients.index') ? 'active' : '' }}" href="{{ route('clients.index') }}">
-          <i class="bi bi-heart-pulse"></i>
+          <i class="fa fa-users"></i>
           <span>العملاء</span>
         </a>
       </li>
