@@ -3,7 +3,18 @@
 @section('main')
 <div class="container">
     <h1>الأدوية</h1>
-    
+    <form action="{{ route('medications.index') }}" method="GET" class="mb-3">
+        <div class="input-group">
+            <div class="row  w-100">
+                <div class="col-10">  
+                              <input type="text" name="search" class="form-control" placeholder="ابحث عن دواء" value="{{ request('search') }}">
+                </div>
+                <div class="col-2">  
+                              <button type="submit" class="btn btn-primary">بحث</button>
+                </div>
+            </div>
+        </div>
+    </form>
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -11,7 +22,7 @@
     @endif
 
  <!-- Add Medication Button -->
- <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">
+ <button type="button" class="btn btn-primary mb-3 me-auto d-block" data-bs-toggle="modal" data-bs-target="#createModal">
     <i class="fas fa-plus"></i> إضافة دواء جديد
 </button>
 
@@ -53,32 +64,7 @@
                     </form>
                 </td>
             </tr>
-                    <td>{{ $medication->name }}</td>
-                    <td>{{ $medication->quantity }}</td>
-                    <td>{{ $medication->price }}</td>
-                    <td>{{ $medication->supported_price }}</td>
-                    <td>
-                        <form action="{{ route('medications.destroy', $medication->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('هل أنت متأكد أنك تريد حذف هذا الدواء؟');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </form>
-
-                        <button type="button" class="btn btn-warning btn-sm edit-btn" 
-                                data-bs-toggle="modal" data-bs-target="#editModal"
-                                data-id="{{ $medication->id }}"
-                                data-name="{{ $medication->name }}"
-                                data-quantity="{{ $medication->quantity }}"
-                                data-price="{{ $medication->price }}"
-                                data-supported-price="{{ $medication->supported_price }}">
-                            <i class="fas fa-edit"></i>
->>>>>>> 64b645cd6ea1490a872d4bf6ae68001d824ca3f9
-                        </button>
-                    </form>
-                </td>
-            </tr>
+                   
             @empty
                 <tr>
                     <td colspan="12" class="text-center">لم يتم العثور على أدوية.</td>

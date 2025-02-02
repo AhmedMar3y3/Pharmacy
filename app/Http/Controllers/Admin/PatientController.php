@@ -12,19 +12,21 @@ class PatientController extends Controller
 {
     public function index()
     {
+        $search = request()->input('query');
+    
         $query = Patient::query();
-
-        if (request()->has('name')) {
-            $query->where('name', 'like', '%' . request('name') . '%');
+    
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('ID_number', 'like', "%{$search}%");
+            });
         }
-
-        if (request()->has('ID_number')) {
-            $query->where('ID_number', 'like', '%' . request('ID_number') . '%');
-        }
-
+    
         $clients = $query->get();
         return view('clients.index', compact('clients'));
     }
+    
 
     public function show($id)
     {

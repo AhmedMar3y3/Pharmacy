@@ -21,9 +21,7 @@ class InvoiceController extends Controller
     }
     public function show(Invoice $invoice)
     {
-        // Eager load related patient and medication data
         $invoice->load(['patient', 'items.medication']);
-    
         return view('invoices.show', compact('invoice'));
     }
     

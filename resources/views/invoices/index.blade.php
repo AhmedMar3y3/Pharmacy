@@ -4,13 +4,9 @@
 <div class="container">
     <h1>الفواتير</h1>
 
-    <!-- Search Form -->
-    <form method="GET" action="{{ route('invoices.index') }}" class="mb-3">
-        <input type="text" name="search" class="form-control" placeholder="البحث عن طريق اسم العميل" value="{{ request('search') }}">
-    </form>
 
     <!-- Create Invoice Button -->
-    <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createInvoiceModal">
+    <button type="button" class="btn btn-primary mb-3 me-auto d-block" data-bs-toggle="modal" data-bs-target="#createInvoiceModal">
         إنشاء فاتورة
     </button>
 
@@ -146,7 +142,12 @@
                                 return $item->price * $item->quantity;
                             }), 2) }}
                         </p>
-                        <p><strong>إجمالي الدعم:</strong> {{ number_format($invoice->total_support, 2) }}</p>
+                        <p><strong>إجمالي السعر المدعوم:</strong> {{ number_format($invoice->total_support, 2) }}</p>
+                        <p><strong>إجمالي الدعم: </strong> 
+                            {{ number_format($invoice->items->sum(function($item) {
+                                return $item->price * $item->quantity;
+                            }) - $invoice->total_support, 2) }}
+                        </p>
                     </div>
 
                     <table class="table table-bordered">
@@ -162,11 +163,11 @@
                         <tbody>
                             @forelse ($invoice->items as $item)
                                 <tr>
-                                    <td>{{ $item->medication->name }}</td>
+                                    <td>{{ $item->medication ? $item->medication->name : 'الدواء محذوف' }}</td>
                                     <td>{{ $item->quantity }}</td>
                                     <td>{{ number_format($item->price, 2) }}</td>
                                     <td>{{ number_format($item->supported_price, 2) }}</td>
-                                    <td>{{ number_format($item->price * $item->quantity, 2) }}</td>
+                                    <td>{{ number_format($item->supported_price * $item->quantity, 2) }}</td>
                                 </tr>
                             @empty
                                 <tr>
