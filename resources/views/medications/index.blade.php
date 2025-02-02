@@ -10,12 +10,11 @@
         </div>
     @endif
 
-    <!-- Add Medication Button -->
-    <button style ="background: #0e123e" "button" class="btn btn-primary mb-3 me-auto d-block" data-bs-toggle="modal" data-bs-target="#createModal">
-    <div dir="ltr">
-    <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">
-        <i class="fas fa-plus"></i> إضافة دواء جديد
-    </button>
+ <!-- Add Medication Button -->
+ <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">
+    <i class="fas fa-plus"></i> إضافة دواء جديد
+</button>
+
     </div>
     <table class="table table-bordered">
         <thead>
@@ -29,32 +28,30 @@
         </thead>
         <tbody>
             @forelse($medications as $medication)
-                <tr>
-                    <td>{{ $medication->name }}</td>
-                    <td>{{ $medication->quantity }}</td>
-                    <td>{{ $medication->price }}</td>
-                    <td>{{ $medication->supported_price }}</td>
-                    <td>
-                        <form action="{{ route('medications.destroy', $medication->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('هل أنت متأكد أنك تريد حذف هذا الدواء؟');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </form>
-
-                        <button type="button" style="background-color: #febb78"
-                                data-bs-toggle="modal" data-bs-target="#editModal"
-                                data-id="{{ $medication->id }}"
-                                data-name="{{ $medication->name }}"
-                                data-quantity="{{ $medication->quantity }}"
-                                data-price="{{ $medication->price }}"
-                                data-supported-price="{{ $medication->supported_price }}">
-                            <i class="fas fa-edit"></i>
+            <tr>
+                <td>{{ $medication->name }}</td>
+                <td>{{ $medication->quantity }}</td>
+                <td>{{ $medication->price }}</td>
+                <td>{{ $medication->supported_price }}</td>
+                <td>
+                    <button type="button" class="btn btn-warning btn-sm edit-btn" 
+                            data-bs-toggle="modal" data-bs-target="#editModal"
+                            data-id="{{ $medication->id }}"
+                            data-name="{{ $medication->name }}"
+                            data-quantity="{{ $medication->quantity }}"
+                            data-price="{{ $medication->price }}"
+                            data-supported-price="{{ $medication->supported_price }}">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <form action="{{ route('medications.destroy', $medication->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('هل أنت متأكد أنك تريد حذف هذا الدواء؟');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash-alt"></i>
                         </button>
-                    
-                    </td>
-                </tr>
+                    </form>
+                </td>
+            </tr>
             @empty
                 <tr>
                     <td colspan="12" class="text-center">لم يتم العثور على أدوية.</td>
