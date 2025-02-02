@@ -43,5 +43,9 @@ Route::put('/update-medication/{id}', [MedicationController::class, 'update'])->
 Route::delete('/delete-medication/{id}', [MedicationController::class, 'destroy'])->name('medications.destroy');
 
 
+// Invoice Routes
 Route::get('/invoices', [InvoiceController::class,'index'])->name('invoices.index');
+Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])->name('invoices.show');
+Route::post('/store-invoice', [InvoiceController::class, 'store'])->name('invoices.store');
+Route::put('/update-invoice/{id}', [InvoiceController::class, 'update'])->name('invoices.update');
 });

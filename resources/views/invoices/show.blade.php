@@ -3,35 +3,46 @@
 @section('main')
 <div class="container">
     <h1>تفاصيل الفاتورة</h1>
-    <div class="mb-3">
-        <strong>اسم العميل:</strong> {{ $bill->customer_name }}
+
+    <div class="mb-4">
+        <p><strong>اسم المريض:</strong> {{ $invoice->patient->name }}</p>
+        <p><strong>التاريخ:</strong> {{ $invoice->date }}</p>
+        <p>
+            <strong>إجمالي السعر:</strong>
+            {{ number_format($invoice->items->sum(function($item) {
+                return $item->price * $item->quantity;
+            }), 2) }}
+        </p>
+        <p><strong>إجمالي الدعم:</strong> {{ number_format($invoice->total_support, 2) }}</p>
     </div>
-    <div class="mb-3">
-        <strong>هاتف العميل:</strong> {{ $bill->customer_phone }}
-    </div>
-    <div class="mb-3">
-        <strong>السعر الإجمالي:</strong> ${{ $bill->total_price }}
-    </div>
-    <h3>المنتجات</h3>
+
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>الاسم</th>
-                <th>السعر</th>
+                <th>الدواء</th>
                 <th>الكمية</th>
+                <th>السعر</th>
+                <th>السعر المدعوم</th>
                 <th>الإجمالي</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($bill->products as $product)
+            @forelse ($invoice->items as $item)
                 <tr>
-                    <td>{{ $product->name }}</td>
-                    <td>${{ $product->price }}</td>
-                    <td>{{ $product->pivot->quantity }}</td>
-                    <td>${{ $product->price * $product->pivot->quantity }}</td>
+                    <td>{{ $item->medication->name }}</td>
+                    <td>{{ $item->quantity }}</td>
+                    <td>{{ number_format($item->price, 2) }}</td>
+                    <td>{{ number_format($item->supported_price, 2) }}</td>
+                    <td>{{ number_format($item->price * $item->quantity, 2) }}</td>
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan="5" class="text-center">لا توجد أدوية مسجلة</td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
+
+    <a href="{{ route('invoices.index') }}" class="btn btn-secondary mt-3">رجوع</a>
 </div>
 @endsection

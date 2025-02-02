@@ -20,4 +20,9 @@ class Medication extends Model
     {
         return $this->hasMany(InvoiceItems::class);
     }
+
+    public function scopeAvailable($query, $quantity)
+    {
+        return $query->where('quantity', '>=', $quantity);
+    }
 }

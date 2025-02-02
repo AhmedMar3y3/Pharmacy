@@ -14,20 +14,25 @@ class InvoiceController extends Controller
 
     public function index()
     {
+        $patients = Patient::all();
+        $medications = Medication::all();
         $invoices = Invoice::all();
-        return view('invoices.index', compact('invoices'));
+        return view('invoices.index', compact('invoices','medications','patients'));
     }
     public function show(Invoice $invoice)
     {
-        $invoice->load('items.medication', 'patient');
+        // Eager load related patient and medication data
+        $invoice->load(['patient', 'items.medication']);
+    
         return view('invoices.show', compact('invoice'));
     }
-
+    
+    
     public function create()
     {
         $patients = Patient::all();
         $medications = Medication::all();
-        return view('invoices.create', compact('patients', 'medications'));
+        return view('invoices.index', compact('patients', 'medications'));
     }
 
     public function store(Request $request)
@@ -39,18 +44,26 @@ class InvoiceController extends Controller
             'items.*.medication_id' => 'required|exists:medications,id',
             'items.*.quantity' => 'required|integer|min:1'
         ]);
-
+    
         $invoice = Invoice::create([
             'patient_id' => $request->patient_id,
             'date' => $request->date,
-            'total_support' => 0 // Temporary value
+            'total_support' => 0
         ]);
-
+    
         $totalSupport = 0;
-
+    
         foreach ($request->items as $item) {
-            $medication = Medication::find($item['medication_id']);
-
+            $medication = Medication::findOrFail($item['medication_id']);
+            
+            // Check stock availability
+            if ($medication->quantity < $item['quantity']) {
+                return back()->with('error', "Not enough stock for {$medication->name}");
+            }
+    
+            // Update medication stock
+            $medication->decrement('quantity', $item['quantity']);
+    
             $invoiceItem = InvoiceItems::create([
                 'invoice_id' => $invoice->id,
                 'medication_id' => $item['medication_id'],
@@ -58,12 +71,14 @@ class InvoiceController extends Controller
                 'price' => $medication->price,
                 'supported_price' => $medication->supported_price
             ]);
-
+    
             $totalSupport += $invoiceItem->supported_price * $invoiceItem->quantity;
         }
-
+    
         $invoice->update(['total_support' => $totalSupport]);
-
-        return redirect()->route('invoices.show', $invoice);
+    
+        return redirect()->route('invoices.index')->with('success', 'تم إنشاء الفاتورة بنجاح');
     }
+
+
 }

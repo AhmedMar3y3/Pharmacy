@@ -11,7 +11,7 @@
     @endif
 
     <!-- Add Medication Button -->
-    <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">
+    <button style ="background: #0e123e" "button" class="btn btn-primary mb-3 me-auto d-block" data-bs-toggle="modal" data-bs-target="#createModal">
         <i class="fas fa-plus"></i> إضافة دواء جديد
     </button>
 
