@@ -53,9 +53,4 @@ class AuthController extends Controller
         $user->tokens()->delete();
         return redirect()->route('login.page');
     }
-
-
-
-
-
 }

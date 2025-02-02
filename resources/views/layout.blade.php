@@ -101,7 +101,7 @@
       <li class="nav-item">
         <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
           <i class="bi bi-grid"></i>
-          <span>الصفحة الرئيسية</span>
+          <span style="background-color: ">الصفحة الرئيسية</span>
         </a>
       </li>
 
@@ -117,6 +117,13 @@
         <a class="nav-link {{ request()->routeIs('invoices.index') ? 'active' : '' }}" href="{{ route('invoices.index') }}">
             <i class="bi bi-receipt"></i>
           <span>الفواتير</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link {{ request()->routeIs('clients.index') ? 'active' : '' }}" href="{{ route('clients.index') }}">
+          <i class="bi bi-heart-pulse"></i>
+          <span>العملاء</span>
         </a>
       </li>
 

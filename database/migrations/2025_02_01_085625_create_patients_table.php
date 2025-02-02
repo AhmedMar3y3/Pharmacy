@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('address')->nullable();
             $table->timestamps();
         });
-    }
+    }  
 
     /**
      * Reverse the migrations.
