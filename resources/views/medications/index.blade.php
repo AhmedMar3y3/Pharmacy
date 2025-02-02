@@ -11,11 +11,12 @@
     @endif
 
     <!-- Add Medication Button -->
-    <button style ="background: #0e123e" "button" class="btn btn-primary mb-3 me-auto d-block" data-bs-toggle="modal" data-bs-target="#createModal">
     <div dir="ltr">
-    <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">
-        <i class="fas fa-plus"></i> إضافة دواء جديد
-    </button>
+        <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">
+            <i class="fas fa-plus"></i>اضافة دواء جديد
+        </button>
+        </div> 
+
     </div>
     <table class="table table-bordered">
         <thead>
@@ -43,7 +44,7 @@
                             </button>
                         </form>
 
-                        <button type="button" style="background-color: #febb78"
+                        <button type="button" class="btn btn-warning btn-sm edit-btn" 
                                 data-bs-toggle="modal" data-bs-target="#editModal"
                                 data-id="{{ $medication->id }}"
                                 data-name="{{ $medication->name }}"

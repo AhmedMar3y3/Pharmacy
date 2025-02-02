@@ -34,16 +34,7 @@
                     <td>{{ $client->phone }}</td>
 
                     <td>
-
-                        <form action="{{ route('clients.destroy', $client->id) }}" method="POST" style="display: inline;" onsubmit="return confirm(' هل أنت متأكد أنك تريد حذف هذاالعميل؟');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </form>
-
-                        <button type="button" style="background-color: #febb78"
+                        <button type="button" class="btn btn-warning btn-sm edit-btn" 
                         data-bs-toggle="modal" data-bs-target="#editModal"
                         data-id="{{ $client->id }}"
                         data-name="{{ $client->name }}"
@@ -53,7 +44,13 @@
                         <i class="fas fa-edit"></i>
                     </button>
                     
-                    
+                        <form action="{{ route('clients.destroy', $client->id) }}" method="POST" style="display: inline;" onsubmit="return confirm(' هل أنت متأكد أنك تريد حذف هذاالعميل؟');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
 
                 {{-- show --}}
                 <!-- Show Client Modal -->
@@ -79,7 +76,7 @@
 </div>
 
 
-<button type="button" style="background-color: #9dd8ff"
+<button type="button" class="btn btn-success btn-sm show-btn" 
     data-bs-toggle="modal" data-bs-target="#showModal"
     data-id="{{ $client->id }}"
     data-name="{{ $client->name }}"
