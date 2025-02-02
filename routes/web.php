@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\Admin\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\ClientsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,14 @@ Route::post('/store-medication', [MedicationController::class, 'store'])->name('
 Route::put('/update-medication/{id}', [MedicationController::class, 'update'])->name('medications.update');
 Route::delete('/delete-medication/{id}', [MedicationController::class, 'destroy'])->name('medications.destroy');
 
-
 Route::get('/invoices', [InvoiceController::class,'index'])->name('invoices.index');
+
+//clients
+Route::get('/clients', [PatientController::class, 'index'])->name('clients.index');
+Route::post('/store-clients', [PatientController::class, 'store'])->name('clients.store');
+Route::put('/update-clients/{id}', [PatientController::class, 'update'])->name('clients.update');
+Route::delete('/delete-clients/{id}', [PatientController::class, 'destroy'])->name('clients.destroy');
+
+Route::get('/client/{id}', [PatientController::class, 'show'])->name('clients.show');
+
 });

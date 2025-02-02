@@ -47,11 +47,16 @@ class AuthController extends Controller
     }
 
 
-    public function logout()
-    {
-        Auth::logout();
-        return redirect()->route('login.home');
-    }
+public function logout()
+{
+    Auth::guard('web')->logout(); 
+
+    request()->session()->invalidate(); 
+    request()->session()->regenerateToken(); 
+
+    return redirect()->route('login.page'); 
+}
+
 
 
 

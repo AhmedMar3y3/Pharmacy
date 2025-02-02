@@ -11,10 +11,11 @@
     @endif
 
     <!-- Add Medication Button -->
+    <div dir="ltr">
     <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">
         <i class="fas fa-plus"></i> إضافة دواء جديد
     </button>
-
+    </div>
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -33,7 +34,15 @@
                     <td>{{ $medication->price }}</td>
                     <td>{{ $medication->supported_price }}</td>
                     <td>
-                        <button type="button" class="btn btn-warning btn-sm edit-btn" 
+                        <form action="{{ route('medications.destroy', $medication->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('هل أنت متأكد أنك تريد حذف هذا الدواء؟');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
+
+                        <button type="button" style="background-color: #febb78"
                                 data-bs-toggle="modal" data-bs-target="#editModal"
                                 data-id="{{ $medication->id }}"
                                 data-name="{{ $medication->name }}"
@@ -42,13 +51,7 @@
                                 data-supported-price="{{ $medication->supported_price }}">
                             <i class="fas fa-edit"></i>
                         </button>
-                        <form action="{{ route('medications.destroy', $medication->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('هل أنت متأكد أنك تريد حذف هذا الدواء؟');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </form>
+                    
                     </td>
                 </tr>
             @empty
@@ -102,7 +105,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editModalLabel">تعديل الدواء</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
                 </div>
                 <form id="editForm" method="POST">
                     @csrf

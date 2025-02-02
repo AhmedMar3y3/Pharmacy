@@ -23,7 +23,7 @@ class UpdatePatientRequest extends FormRequest
     {
         return [
             "name"      => "nullable|string",
-            "ID_number" => "nullable|string|unique:patients,ID_number",
+            "ID_number" => "nullable|string",
             "phone"     => "nullable|string",
             "address"   => "nullable|string",
         ];
