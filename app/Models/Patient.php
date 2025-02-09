@@ -10,10 +10,10 @@ class Patient extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'name',
         'ID_number',
         'phone',
-        'address',
     ];
 
     public function invoices(){

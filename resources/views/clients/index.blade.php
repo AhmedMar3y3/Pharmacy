@@ -39,7 +39,7 @@
                         data-id="{{ $client->id }}"
                         data-name="{{ $client->name }}"
                         data-phone="{{ $client->phone }}"
-                        data-address="{{ $client->address }}"
+                        data-clientNumber="{{ $client->id}}"
                         data-id_number="{{ $client->ID_number }}"> 
                         <i class="fas fa-edit"></i>
                     </button>
@@ -64,7 +64,7 @@
             </div>
             <div class="modal-body">
                 <p><strong>الاسم:</strong> <span id="show_name"></span></p>
-                <p><strong>العنوان:</strong> <span id="show_address"></span></p>
+                <p><strong>رقم العميل:</strong> <span id="show_id"></span></p>
                 <p><strong>رقم الهاتف:</strong> <span id="show_phone"></span></p>
                 <p><strong>رقم الهوية:</strong> <span id="show_ID_number"></span></p>
             </div>
@@ -81,7 +81,7 @@
     data-id="{{ $client->id }}"
     data-name="{{ $client->name }}"
     data-phone="{{ $client->phone }}"
-    data-address="{{ $client->address }}"
+    data-clientNumber="{{ $client->id}}"
     data-id_number="{{ $client->ID_number }}">
     <i class="bi bi-eye"></i>
 </button>
@@ -113,10 +113,6 @@
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="address" class="form-label">العنوان</label>
-                            <input type="text" class="form-control" id="address" name="address" required>
-                        </div>
-                        <div class="mb-3">
                             <label for="phone" class="form-label">رقم الهاتف</label>
                             <input type="number" step="0.01" class="form-control" id="phone" name="phone" required>
                         </div>
@@ -125,6 +121,11 @@
                             <input type="text" class="form-control" id="ID_number" name="ID_number" required>
                         </div>
                         
+                        <div class="mb-3">
+                            <label for="id" class="form-label">رقم العميل</label>
+                            <input type="number" class="form-control" id="id" name="id" required>
+                        </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
@@ -150,20 +151,22 @@
                     @method('PUT')
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="edit_name" class="form-label">اسم العميل</label>
-                            <input type="text" class="form-control" id="edit_name" name="name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="edit_address" class="form-label">العنوان</label>
-                            <input type="text" class="form-control" id="edit_address" name="address" required>
-                        </div>
-                        <div class="mb-3">
                             <label for="edit_phone" class="form-label">رقم الهاتف</label>
                             <input type="number" class="form-control" id="edit_phone" name="phone" required>
                         </div>
                         <div class="mb-3">
                             <label for="edit_ID_number" class="form-label">رقم الهوية</label>
                             <input type="text" class="form-control" id="edit_ID_number" name="ID_number" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="edit_id" class="form-label">رقم العميل</label>
+                            <input type="number" class="form-control" id="edit_id" name="id" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="edit_name" class="form-label">اسم العميل</label>
+                            <input type="text" class="form-control" id="edit_name" name="name" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -189,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('editForm').action = `/update-clients/${clientId}`;
 
             document.getElementById('edit_name').value = this.dataset.name;
-            document.getElementById('edit_address').value = this.dataset.address;
+            document.getElementById('edit_id').value = this.dataset.id;
             document.getElementById('edit_phone').value = this.dataset.phone;
             document.getElementById('edit_ID_number').value = this.dataset.id_number;
         });
@@ -202,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', function() {
             // ملء حقول الـ Modal بالبيانات
             document.getElementById('show_name').textContent = this.dataset.name;
-            document.getElementById('show_address').textContent = this.dataset.address;
+            document.getElementById('show_id').textContent = this.dataset.id;
             document.getElementById('show_phone').textContent = this.dataset.phone;
             document.getElementById('show_ID_number').textContent = this.dataset.id_number;
         });

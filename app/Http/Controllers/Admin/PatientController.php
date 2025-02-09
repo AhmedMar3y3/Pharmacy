@@ -11,7 +11,7 @@ use Carbon\Carbon;
 class PatientController extends Controller
 {
     public function index()
-    {
+    { 
         $query = Patient::query();
 
         if (request()->has('name')) {
@@ -31,7 +31,7 @@ class PatientController extends Controller
         $client = Patient::findOrFail($id);
         dd($client); 
         return view('clients.index', compact('client'));
-    }
+    } 
 
     public function store(StorePatientRequest $request)
     {

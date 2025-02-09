@@ -25,7 +25,7 @@ class StorePatientRequest extends FormRequest
             "name"      => "required|string",
             "ID_number" => "required|string|unique:patients,ID_number",
             "phone"     => "required|string",
-            "address"   => "nullable|string",
+            "id"   => "nullable|integer|unique:patients,id",
         ];
     }
 }
