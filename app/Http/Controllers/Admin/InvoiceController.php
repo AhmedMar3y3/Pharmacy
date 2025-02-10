@@ -8,7 +8,7 @@ use App\Models\Medication;
 use App\Models\InvoiceItems;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-// use niklasravnsborg\LaravelPdf\Pdf;
+use Barryvdh\DomPDF\Facade\Pdf;
 class InvoiceController extends Controller
 {
 
@@ -81,13 +81,17 @@ class InvoiceController extends Controller
 
     public function download(Invoice $invoice)
     {
-      //  $invoice->load(['patient', 'items.medication']);
+        $invoice->load(['patient', 'items.medication']);
 
-       // $pdf = AnonyPDF::loadView('invoices.pdf', compact('invoice'));
+        $pdf = Pdf::loadView('invoices.pdf', compact('invoice'));
 
-       // return $pdf->download("invoice-{$invoice->id}.pdf");
+        return $pdf->download("invoice-{$invoice->id}.pdf");
     }
 
-
+    public function print(Invoice $invoice)
+    {
+        $invoice->load(['patient', 'items.medication']);
+        return view('invoices.print', compact('invoice'));
+    }
 
 }

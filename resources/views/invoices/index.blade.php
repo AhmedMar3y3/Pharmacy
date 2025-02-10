@@ -194,13 +194,10 @@
 
 <script>
     function printInvoice(invoiceId) {
-        // You can create a dedicated route/view for printing similar to the PDF view.
-        // For simplicity, we'll open the PDF download in a new window and then call print.
-        var printWindow = window.open("{{ url('invoices') }}/" + invoiceId + "/print", '_blank');
+        var printUrl = "{{ url('invoices') }}/" + invoiceId + "/print";
+        var printWindow = window.open(printUrl, '_blank');
         printWindow.focus();
-        setTimeout(() => {
-            printWindow.print();
-        }, 1000);
+
     }
 </script>
 
