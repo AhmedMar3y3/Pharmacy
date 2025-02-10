@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('patient_id')->constrained()->onDelete('cascade');
             $table->date('date')->default(now());
+            $table->string('serial');
             $table->decimal('total_support',10,2)->default(0);
             $table->timestamps();
         });

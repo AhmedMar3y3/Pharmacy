@@ -13,6 +13,7 @@ class Invoice extends Model
         "patient_id",
         "date",
         "total_support",
+        "serial",
     ];
 
     public function patient(){
