@@ -22,10 +22,10 @@ class UpdateMedicationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'            => 'nullable|string',
-            'price'           => 'nullable|numeric',
-            'supported_price' => 'nullable|numeric',
-            'quantity'        => 'nullable|numeric',
+            'name'  => 'nullable|string',
+            'price' => 'nullable|numeric',
+            'type'  => 'nullable|in:محلي,مستورد',
+
         ];
     }
 }

@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->decimal('price',10,2);
-            $table->decimal('supported_price',10,2);
-            $table->integer('quantity')->default(0);
+            $table->enum('type', ['محلي','مستورد']);
             $table->timestamps();
             $table->softDeletes();
         });

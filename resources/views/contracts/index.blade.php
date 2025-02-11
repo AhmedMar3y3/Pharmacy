@@ -2,19 +2,7 @@
 
 @section('main')
 <div class="container">
-    <h1>الأدوية</h1>
-    <form action="{{ route('medications.index') }}" method="GET" class="mb-3">
-        <div class="input-group">
-            <div class="row w-100">
-                <div class="col-10">
-                    <input type="text" name="search" class="form-control" placeholder="ابحث عن دواء" value="{{ request('search') }}">
-                </div>
-                <div class="col-2">
-                    <button type="submit" class="btn btn-primary">بحث</button>
-                </div>
-            </div>
-        </div>
-    </form>
+    <h1>العقود</h1>
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -23,34 +11,36 @@
 
     <!-- Add Medication Button -->
     <button type="button" class="btn btn-primary mb-3 me-auto d-block" data-bs-toggle="modal" data-bs-target="#createModal">
-        <i class="fas fa-plus"></i> إضافة دواء جديد
+        <i class="fas fa-plus"></i> إضافة عقد جديد
     </button>
 
     <table class="table table-bordered">
         <thead>
             <tr>
+                <th>#</th>
                 <th>الاسم</th>
-                <th>السعر</th>
-                <th>النوع</th>
+                <th>النسبة للمحلي</th>
+                <th>النسبة للمستورد</th>
                 <th>الإجراءات</th>
             </tr>
         </thead>
         <tbody>
-            @forelse($medications as $medication)
+            @forelse($contracts as $contract)
             <tr>
-                <td>{{ $medication->name }}</td>
-                <td>{{ $medication->price }}</td>
-                <td>{{ $medication->type }}</td>
+                <td>{{ $contract->id }}</td>
+                <td>{{ $contract->name }}</td>
+                <td>{{ $contract->local_discount_percentage }}</td>
+                <td>{{ $contract->imported_discount_percentage }}</td>
                 <td>
                     <button type="button" class="btn btn-warning btn-sm edit-btn" 
                             data-bs-toggle="modal" data-bs-target="#editModal"
-                            data-id="{{ $medication->id }}"
-                            data-name="{{ $medication->name }}"
-                            data-price="{{ $medication->price }}"
-                            data-type="{{ $medication->type }}">
+                            data-id="{{ $contract->id }}"
+                            data-name="{{ $contract->name }}"
+                            data-price="{{ $contract->local_discount_percentage }}"
+                            data-type="{{ $contract->imported_discount_percentage }}">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <form action="{{ route('medications.destroy', $medication->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('هل أنت متأكد أنك تريد حذف هذا الدواء؟');">
+                    <form action="{{ route('contracts.destroy', $contract->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('هل أنت متأكد أنك تريد حذف هذا العقد');">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger btn-sm">
@@ -61,7 +51,7 @@
             </tr>
             @empty
                 <tr>
-                    <td colspan="4" class="text-center">لم يتم العثور على أدوية.</td>
+                    <td colspan="12" class="text-center">لم يتم العثور على عقود.</td>
                 </tr>
             @endforelse
         </tbody>
@@ -72,26 +62,23 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="createModalLabel">إضافة دواء جديد</h5>
+                    <h5 class="modal-title" id="createModalLabel">إضافة عقد جديد</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('medications.store') }}" method="POST">
+                <form action="{{ route('contracts.store') }}" method="POST">
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="name" class="form-label">اسم الدواء</label>
+                            <label for="name" class="form-label">اسم الجهة</label>
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="price" class="form-label">السعر</label>
-                            <input type="number" step="0.01" class="form-control" id="price" name="price" required>
+                            <label for="local_discount_percentage" class="form-label">نسبة خصم المحلي</label>
+                            <input type="number" step="0.01" class="form-control" id="local_discount_percentage" name="local_discount_percentage" required>
                         </div>
                         <div class="mb-3">
-                            <label for="type" class="form-label">النوع</label>
-                            <select class="form-control" id="type" name="type" required>
-                                <option value="محلي">محلي</option>
-                                <option value="مستورد">مستورد</option>
-                            </select>
+                            <label for="imported_discount_percentage" class="form-label">نسبة خصم المستورد</label>
+                            <input type="number" step="0.01" class="form-control" id="imported_discount_percentage" name="imported_discount_percentage" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -108,7 +95,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">تعديل الدواء</h5>
+                    <h5 class="modal-title" id="editModalLabel">تعديل العقد</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="editForm" method="POST">
@@ -116,19 +103,17 @@
                     @method('PUT')
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="edit_name" class="form-label">اسم الدواء</label>
+                            <label for="edit_name" class="form-label">اسم الجهة</label>
                             <input type="text" class="form-control" id="edit_name" name="name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="edit_price" class="form-label">السعر</label>
-                            <input type="number" step="0.01" class="form-control" id="edit_price" name="price" required>
+                            <label for="edit_local" class="form-label">نسبة خصم المحلي</label>
+                            <input type="number" step="0.01" class="form-control" id="edit_local" name="local_discount_percentage" required>
                         </div>
                         <div class="mb-3">
-                            <label for="edit_type" class="form-label">النوع</label>
-                            <select class="form-control" id="edit_type" name="type" required>
-                                <option value="محلي">محلي</option>
-                                <option value="مستورد">مستورد</option>
-                            </select>
+                            <label for="edit_imported" class="form-label">نسبة خصم المستورد</label>
+                            <input type="number" step="0.01" class="form-control" id="edit_imported" name="imported_discount_percentage" required>
+
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -146,12 +131,12 @@
         // Edit Modal Handler
         document.querySelectorAll('.edit-btn').forEach(button => {
             button.addEventListener('click', function() {
-                const medicationId = this.dataset.id;
-                document.getElementById('editForm').action = `/update-medication/${medicationId}`;
+                const contractId = this.dataset.id;
+                document.getElementById('editForm').action = `/update-contract/${contractId}`;
                 
                 document.getElementById('edit_name').value = this.dataset.name;
-                document.getElementById('edit_price').value = this.dataset.price;
-                document.getElementById('edit_type').value = this.dataset.type;
+                document.getElementById('edit_local').value = this.dataset.local_discount_percentage;
+                document.getElementById('edit_imported').value = this.dataset.imported_discount_percentage;
             });
         });
     });
