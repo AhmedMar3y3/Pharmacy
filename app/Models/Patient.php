@@ -15,6 +15,7 @@ class Patient extends Model
         'name',
         'ID_number',
         'phone',
+        'contract_id',
     ];
 
     public function invoices(){

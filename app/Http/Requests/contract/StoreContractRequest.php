@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\medication;
+namespace App\Http\Requests\contract;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreMedicationRequest extends FormRequest
+class StoreContractRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,9 @@ class StoreMedicationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'  => 'required|string',
-            'price' => 'required|numeric',
-            'type'  => 'required|in:محلي,مستورد',
+            "name"                         => "required|string",
+            "local_discount_percentage"    => "numeric|required",
+            "imported_discount_percentage" => "numeric|required",
         ];
     }
 }

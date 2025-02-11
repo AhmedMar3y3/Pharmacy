@@ -11,23 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('patients', function (Blueprint $table) {
+        Schema::create('contracts', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('ID_number')->unique();
-            $table->string('phone')->nullable();
-            $table->text('address')->nullable();
-            $table->foreignId('contract_id')->constrained()->onDelete('cascade');
+            $table->double('local_discount_percentage');
+            $table->double('imported_discount_percentage');
             $table->timestamps();
-            $table->softDeletes();
         });
-    }  
+    }
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('patients');
+        Schema::dropIfExists('contracts');
     }
 };

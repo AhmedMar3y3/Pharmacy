@@ -1,6 +1,6 @@
 <!-- resources/views/invoices/pdf.blade.php -->
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>فاتورة رقم {{ $invoice->id }}</title>
@@ -8,14 +8,14 @@
 
         @font-face {
             font-family: 'Amiri';
-            src: url("{{ storage_path('fonts/Amiri-Regular.ttf') }}") format('truetype');
+            src: url("{{ public_path('fonts/Amiri-Regular.ttf') }}") format('truetype');
             font-weight: normal;
             font-style: normal;
         }
         body {
             font-family: 'Amiri', DejaVu Sans, sans-serif;
             direction: rtl !important;
-            text-align: right;
+            text-align: left;
             font-size: 14px;
         }
         h1, p {
