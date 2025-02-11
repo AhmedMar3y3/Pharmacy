@@ -15,10 +15,17 @@ class Patient extends Model
         'name',
         'ID_number',
         'phone',
+        'worker_num',
         'contract_id',
     ];
 
-    public function invoices(){
+    public function invoices()
+    {
         return $this->hasMany(Invoice::class);
+    }
+
+    public function contract()
+    {
+        return $this->belongsTo(Contract::class,'contract_id');
     }
 }

@@ -36,8 +36,8 @@
                             data-bs-toggle="modal" data-bs-target="#editModal"
                             data-id="{{ $contract->id }}"
                             data-name="{{ $contract->name }}"
-                            data-price="{{ $contract->local_discount_percentage }}"
-                            data-type="{{ $contract->imported_discount_percentage }}">
+                            data-local_discount_percentage="{{ $contract->local_discount_percentage }}"
+                            data-imported_discount_percentage="{{ $contract->imported_discount_percentage }}">
                         <i class="fas fa-edit"></i>
                     </button>
                     <form action="{{ route('contracts.destroy', $contract->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('هل أنت متأكد أنك تريد حذف هذا العقد');">

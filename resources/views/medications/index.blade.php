@@ -70,7 +70,6 @@
             <tr>
                 <th>الاسم</th>
                 <th>السعر</th>
-                <th>النوع</th>
                 <th>الإجراءات</th>
             </tr>
         </thead>
@@ -79,14 +78,12 @@
             <tr>
                 <td>{{ $medication->name }}</td>
                 <td>{{ $medication->price }}</td>
-                <td>{{ $medication->type }}</td>
                 <td>
                     <button type="button" class="btn btn-warning btn-sm edit-btn" 
                             data-bs-toggle="modal" data-bs-target="#editModal"
                             data-id="{{ $medication->id }}"
                             data-name="{{ $medication->name }}"
-                            data-price="{{ $medication->price }}"
-                            data-type="{{ $medication->type }}">
+                            data-price="{{ $medication->price }}">
                         <i class="fas fa-edit"></i>
                     </button>
                     <form action="{{ route('medications.destroy', $medication->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('هل أنت متأكد أنك تريد حذف هذا الدواء؟');">
@@ -125,13 +122,6 @@
                             <label for="price" class="form-label">السعر</label>
                             <input type="number" step="0.01" class="form-control" id="price" name="price" required>
                         </div>
-                        <div class="mb-3">
-                            <label for="type" class="form-label">النوع</label>
-                            <select class="form-control" id="type" name="type" required>
-                                <option value="محلي">محلي</option>
-                                <option value="مستورد">مستورد</option>
-                            </select>
-                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
@@ -164,10 +154,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="edit_type" class="form-label">النوع</label>
-                            <select class="form-control" id="edit_type" name="type" required>
-                                <option value="محلي">محلي</option>
-                                <option value="مستورد">مستورد</option>
-                            </select>
+                           
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -190,7 +177,6 @@
                 
                 document.getElementById('edit_name').value = this.dataset.name;
                 document.getElementById('edit_price').value = this.dataset.price;
-                document.getElementById('edit_type').value = this.dataset.type;
             });
         });
     });

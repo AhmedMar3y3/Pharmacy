@@ -6,7 +6,8 @@ use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\Admin\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\Admin\ClientsController;
+use App\Http\Controllers\Admin\ContractController;
+use App\Http\Controllers\Admin\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,5 +64,16 @@ Route::put('/update-clients/{id}', [PatientController::class, 'update'])->name('
 Route::delete('/delete-clients/{id}', [PatientController::class, 'destroy'])->name('clients.destroy');
 
 Route::get('/client/{id}', [PatientController::class, 'show'])->name('clients.show');
+
+// Contract Routes
+Route::get('/contracts', [ContractController::class, 'index'])->name('contracts.index');
+Route::post('/contracts', [ContractController::class, 'store'])->name('contracts.store');
+Route::put('/update-contract/{id}', [ContractController::class, 'update'])->name('contracts.update');
+Route::delete('/delete-contract/{id}', [ContractController::class, 'destroy'])->name('contracts.destroy');
+
+Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+Route::get('/reports/{contract}', [ReportController::class, 'show'])->name('reports.show');
+Route::get('/reports/{contract}/print', [ReportController::class, 'print'])->name('reports.print');
+
 
 });

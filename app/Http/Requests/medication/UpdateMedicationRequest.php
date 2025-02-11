@@ -24,7 +24,6 @@ class UpdateMedicationRequest extends FormRequest
         return [
             'name'  => 'nullable|string',
             'price' => 'nullable|numeric',
-            'type'  => 'nullable|in:محلي,مستورد',
 
         ];
     }

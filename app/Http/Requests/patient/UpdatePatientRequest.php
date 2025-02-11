@@ -3,6 +3,7 @@
 namespace App\Http\Requests\patient;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdatePatientRequest extends FormRequest
 {
@@ -22,10 +23,15 @@ class UpdatePatientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name"      => "nullable|string",
-            "ID_number" => "required|string",
-            "phone"     => "nullable|string",
-            "id"   => "nullable|integer",
+            "name"       => "nullable|string",
+            "phone"      => "nullable|string",
+            "worker_num" => "nullable|string",
+            "contract_id"=> "nullable|exists:contracts,id",
+            "ID_number"  => [
+                "nullable",
+                "string",
+                Rule::unique('patients', 'ID_number')->ignore($this->route('patient')),
+            ],
         ];
     }
 }
