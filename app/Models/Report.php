@@ -11,7 +11,7 @@ class Report extends Model
     protected $fillable = [
        'date',
        'total_support',
-    ] ;
+    ];
 
     public function reportDetails()
     {

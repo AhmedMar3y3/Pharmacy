@@ -1,4 +1,235 @@
-@extends('layout')
+In this project I have contract model that has local_discount_percentage and imported_discount_percentage I want to use those percentages to calculate the disound of each medication when I create a new invoice I choose a patient who has contract_id on his model so he is related to one contract after choosing the patient I choose medications each medication I should specify the quantity needed and also choose the type whether it's local or imported and based on this type and the contract_id of the patient we should calculate the price of the medication after applying the percentage of the discount if the user choosed that the medication is local so you should apply the local_discount_percentage of the contract that the patient belongs to and in the invoice items the supported_price is the price of the medication after applying the discount fo the local or imported on it I hope you got it now here is your refrences here is the Invoice model "<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Invoice extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        "patient_id",
+        "date",
+        "total_support",
+        "serial",
+    ];
+
+    public function patient(){
+        return $this->belongsTo(Patient::class);
+    }
+    public function items(){
+        return $this->hasMany(InvoiceItems::class);
+    }
+
+}" and invoice items model "<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class InvoiceItems extends Model
+{
+    use HasFactory;
+    protected $fillable = [
+        "invoice_id",
+        "medication_id",
+        "quantity",
+        "price",
+        'type',
+        "supported_price",
+    ];
+
+    public function invoice(){
+        return $this->belongsTo(Invoice::class);
+    }
+
+    public function medication(){
+        return $this->belongsTo(Medication::class);
+    }
+}
+" and here is the medication model "<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Medication extends Model
+{
+    use HasFactory, SoftDeletes;
+
+    protected $fillable = [
+        'name',
+        'price',
+    ];
+
+    public function invoiceItems()
+    {
+        return $this->hasMany(InvoiceItems::class);
+    }
+
+    public function scopeAvailable($query, $quantity)
+    {
+        return $query->where('quantity', '>=', $quantity);
+    }
+}
+" and the contract model "<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Contract extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'local_discount_percentage',
+        'imported_discount_percentage',
+    ];
+    public function patients()
+    {
+        return $this->hasMany(Patient::class);
+    }
+}
+" and the patient model "<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Patient extends Model
+{
+    use HasFactory, SoftDeletes;
+
+    protected $fillable = [
+        'id',
+        'name',
+        'ID_number',
+        'phone',
+        'worker_num',
+        'contract_id',
+    ];
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
+    public function contract()
+    {
+        return $this->belongsTo(Contract::class,'contract_id');
+    }
+}
+" and remeber that I don't need quantity in the model of the medication like when user add medication to the invoice and add it's quantity don't subtract it from the stock because there is no quantity specified in the medications table I don't need it and finally here is the controller of the invoice "<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Models\Invoice;
+use App\Models\Patient;
+use App\Models\Medication;
+use App\Models\InvoiceItems;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Barryvdh\DomPDF\Facade\Pdf;
+class InvoiceController extends Controller
+{
+
+    public function index()
+    {
+        $patients = Patient::all();
+        $medications = Medication::all();
+        $invoices = Invoice::all();
+        return view('invoices.index', compact('invoices','medications','patients'));
+    }
+    public function show(Invoice $invoice)
+    {
+        // Eager load related patient and medication data
+        $invoice->load(['patient', 'items.medication']);
+    
+        return view('invoices.show', compact('invoice'));
+    }
+    
+    
+    public function create()
+    {
+        $patients = Patient::all();
+        $medications = Medication::all();
+        return view('invoices.index', compact('patients', 'medications'));
+    }
+
+    //TODO: add type to invoice items
+    public function store(Request $request)
+    {
+        $request->validate([
+            'patient_id' => 'required|exists:patients,id',
+            'date' => 'required|date',
+            'serial'=> 'required|string',
+            'items' => 'required|array|min:1',
+            'items.*.medication_id' => 'required|exists:medications,id',
+            'items.*.quantity' => 'required|integer|min:1'
+        ]);
+    
+        $invoice = Invoice::create([
+            'patient_id' => $request->patient_id,
+            'date' => $request->date,
+            'serial' => $request->serial,
+            'total_support' => 0
+        ]);
+    
+        $totalSupport = 0;
+    
+        foreach ($request->items as $item) {
+            $medication = Medication::findOrFail($item['medication_id']);
+            
+            if ($medication->quantity < $item['quantity']) {
+                return back()->with('error', "Not enough stock for {$medication->name}");
+            }
+    
+            $medication->decrement('quantity', $item['quantity']);
+    
+            $invoiceItem = InvoiceItems::create([
+                'invoice_id' => $invoice->id,
+                'medication_id' => $item['medication_id'],
+                'quantity' => $item['quantity'],
+                'price' => $medication->price,
+                'supported_price' => $medication->supported_price
+            ]);
+    
+            $totalSupport += $invoiceItem->supported_price * $invoiceItem->quantity;
+        }
+    
+        $invoice->update(['total_support' => $totalSupport]);
+    
+        return redirect()->route('invoices.index')->with('success', 'تم إنشاء الفاتورة بنجاح');
+    }
+
+
+    public function download(Invoice $invoice)
+    {
+        $invoice->load(['patient', 'items.medication']);
+
+        $pdf = Pdf::loadView('invoices.pdf', compact('invoice'));
+
+        return $pdf->download("invoice-{$invoice->id}.pdf");
+    }
+
+    public function print(Invoice $invoice)
+    {
+        $invoice->load(['patient', 'items.medication']);
+        return view('invoices.print', compact('invoice'));
+    }
+
+}
+"  and the blade of the invoice which you're going to edit with the controller "@extends('layout')
 
 @section('main')
 <div class="container">
@@ -58,23 +289,6 @@
             @endforelse
         </tbody>
     </table>
-    <!-- Pagination Links -->
-  <!-- Pagination Buttons -->
-  <div class="d-flex justify-content-between mt-4">
-    <!-- Previous Page Button -->
-    @if($invoices->onFirstPage())
-    <span class="btn btn-secondary btn-rounded disabled">السابق</span>
-    @else
-    <a href="{{ $invoices->previousPageUrl() }}" class="btn btn-primary btn-rounded">السابق</a>
-    @endif
-
-    <!-- Next Page Button -->
-    @if($invoices->hasMorePages())
-    <a href="{{ $invoices->nextPageUrl() }}" class="btn btn-primary btn-rounded">التالي</a>
-    @else
-    <span class="btn btn-secondary btn-rounded disabled">التالي</span>
-    @endif
-</div>
 </div>
 
 <!-- Create Invoice Modal -->
@@ -88,11 +302,10 @@
             <form action="{{ route('invoices.store') }}" method="POST">
                 @csrf
                 <div class="modal-body">
-                    <!-- Patient, Date, Serial fields here -->
                     <div class="mb-3">
-                        <label for="patient_id" class="form-label">اسم العميل</label>
+                        <label for="patient_id" class="form-label">اسم المريض</label>
                         <select name="patient_id" id="patient_id" class="form-select" required>
-                            <option value="">اختر العميل</option>
+                            <option value="">اختر المريض</option>
                             @foreach ($patients as $patient)
                                 <option value="{{ $patient->id }}">{{ $patient->name }}</option>
                             @endforeach
@@ -106,46 +319,33 @@
                         <label for="serial" class="form-label">رقم السيريال</label>
                         <input type="text" name="serial" id="serial" class="form-control" required>
                     </div>
-
-                    <!-- Items Container -->
                     <div id="items-container">
                         <div class="item-row mb-3">
                             <div class="row">
-                                <!-- Medication Selection -->
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <label>الدواء</label>
                                     <select name="items[0][medication_id]" class="form-select medication-select" required>
                                         <option value="">اختر الدواء</option>
                                         @foreach ($medications as $medication)
-                                            <option value="{{ $medication->id }}"
-                                                data-price="{{ $medication->price }}">
-                                                {{ $medication->name }}
+                                            <option value="{{ $medication->id }}" 
+                                                data-price="{{ $medication->price }}"
+                                                data-supported-price="{{ $medication->supported_price }}"
+                                                data-stock="{{ $medication->quantity }}">
+                                                {{ $medication->name }} (المخزون: {{ $medication->quantity }})
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <!-- Quantity Input -->
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <label>الكمية</label>
                                     <input type="number" name="items[0][quantity]" class="form-control" placeholder="الكمية" min="1" required>
                                 </div>
-                                <!-- Type Selection -->
-                                <div class="col-md-3">
-                                    <label>النوع</label>
-                                    <select name="items[0][type]" class="form-select" required>
-                                        <option value="">اختر النوع</option>
-                                        <option value="local">محلي</option>
-                                        <option value="imported">مستورد</option>
-                                    </select>
-                                </div>
-                                <!-- Remove Button -->
                                 <div class="col-md-2">
                                     <button type="button" class="btn btn-danger remove-item mt-4">حذف</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Add More Items Button -->
                     <button type="button" id="add-item" class="btn btn-secondary mb-3">إضافة دواء</button>
                 </div>
                 <div class="modal-footer">
@@ -170,7 +370,7 @@
                     <!-- Invoice Details (server-side rendered) -->
                     <div class="mb-4">
                         <p><strong>رقم السيريال:</strong> {{ $invoice->serial }}</p>
-                        <p><strong>اسم العميل:</strong> {{ $invoice->patient->name }}</p>
+                        <p><strong>اسم المريض:</strong> {{ $invoice->patient->name }}</p>
                         <p><strong>التاريخ:</strong> {{ $invoice->date }}</p>
                         <p>
                             <strong>إجمالي السعر:</strong>
@@ -220,7 +420,6 @@
                 </div>
             </div>
         </div>
-        
     </div>
 @endforeach
 
@@ -235,32 +434,31 @@
 
 <!-- Optional: JavaScript for adding/removing medication items in the Create Invoice Modal -->
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Add Medication Item
-    let itemIndex = 1;
-    document.getElementById('add-item').addEventListener('click', function() {
-        const newRow = document.querySelector('.item-row').cloneNode(true);
-        const newIndex = itemIndex++;
-
-        // Update names and clear values for all inputs/selects in the new row
-        newRow.querySelectorAll('select, input').forEach(element => {
-            // Replace the index inside square brackets
-            element.name = element.name.replace(/\[\d+\]/, `[${newIndex}]`);
-            element.value = '';
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add Medication Item
+        let itemIndex = 1;
+        document.getElementById('add-item').addEventListener('click', function() {
+            const newRow = document.querySelector('.item-row').cloneNode(true);
+            const newIndex = itemIndex++;
+    
+            // Update names and clear values
+            newRow.querySelectorAll('select, input').forEach(element => {
+                element.name = element.name.replace('[0]', `[${newIndex}]`);
+                element.value = '';
+            });
+    
+            document.getElementById('items-container').appendChild(newRow);
         });
-
-        document.getElementById('items-container').appendChild(newRow);
-    });
-
-    // Remove Medication Item
-    document.getElementById('items-container').addEventListener('click', function(e) {
-        if (e.target.classList.contains('remove-item')) {
-            if (document.querySelectorAll('.item-row').length > 1) {
-                e.target.closest('.item-row').remove();
+    
+        // Remove Medication Item
+        document.getElementById('items-container').addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-item')) {
+                if (document.querySelectorAll('.item-row').length > 1) {
+                    e.target.closest('.item-row').remove();
+                }
             }
-        }
+        });
     });
-});
-
 </script>
 @endsection
+"

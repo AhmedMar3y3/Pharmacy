@@ -126,6 +126,18 @@
           <span>العملاء</span>
         </a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link {{ request()->routeIs('contracts.index') ? 'active' : '' }}" href="{{ route('contracts.index') }}">
+            <i class="bi bi-file-earmark-text"></i>
+          <span>العقود</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {{ request()->routeIs('reports.index') ? 'active' : '' }}" href="{{ route('reports.index') }}">
+            <i class="bi bi-bar-chart"></i>
+          <span>التقارير</span>
+        </a>
+      </li>
 
     </ul>
   </aside>

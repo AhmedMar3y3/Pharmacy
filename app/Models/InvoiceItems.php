@@ -13,6 +13,7 @@ class InvoiceItems extends Model
         "medication_id",
         "quantity",
         "price",
+        'type',
         "supported_price",
     ];
 

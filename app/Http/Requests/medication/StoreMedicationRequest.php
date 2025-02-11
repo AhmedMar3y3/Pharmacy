@@ -24,7 +24,6 @@ class StoreMedicationRequest extends FormRequest
         return [
             'name'  => 'required|string',
             'price' => 'required|numeric',
-            'type'  => 'required|in:محلي,مستورد',
         ];
     }
 }

@@ -13,7 +13,6 @@ class Medication extends Model
     protected $fillable = [
         'name',
         'price',
-        'type',
     ];
 
     public function invoiceItems()

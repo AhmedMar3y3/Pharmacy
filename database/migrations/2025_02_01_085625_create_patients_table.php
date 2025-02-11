@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('ID_number')->unique();
+            $table->string('worker_num')->unique();
             $table->string('phone')->nullable();
-            $table->text('address')->nullable();
             $table->foreignId('contract_id')->constrained()->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();

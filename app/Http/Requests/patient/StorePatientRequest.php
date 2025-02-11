@@ -24,10 +24,11 @@ class StorePatientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name"      => "required|string",
-            "ID_number" => "required|string|unique:patients,ID_number",
-            "phone"     => "nullable|string",
-            "Worker_number"   => "required|string",
+            "name"            => "required|string",
+            "phone"           => "nullable|string",
+            "worker_num"      => "required|string",
+            "contract_id"     => "required|exists:contracts,id",
+            "ID_number"       => "required|string|unique:patients,ID_number",
 
         ];
     }

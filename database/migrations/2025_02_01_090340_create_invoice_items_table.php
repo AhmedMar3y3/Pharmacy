@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('medication_id')->constrained()->cascadeOnDelete();
             $table->integer('quantity')->default(1);
             $table->decimal('price', 10, 2);
+            $table->enum('type', ['local','imported']);
             $table->decimal('supported_price',10, 2);
             $table->timestamps();
         });
