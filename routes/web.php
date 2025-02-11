@@ -42,6 +42,8 @@ Route::get('/medications/{id}', [MedicationController::class, 'show'])->name('me
 Route::post('/store-medication', [MedicationController::class, 'store'])->name('medications.store');
 Route::put('/update-medication/{id}', [MedicationController::class, 'update'])->name('medications.update');
 Route::delete('/delete-medication/{id}', [MedicationController::class, 'destroy'])->name('medications.destroy');
+//excelMedication
+Route::post('/medication/import', [MedicationController::class, 'import'])->name('medications.import');
 
 
 // Invoice Routes

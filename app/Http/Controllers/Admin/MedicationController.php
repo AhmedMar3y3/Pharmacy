@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\medication\StoreMedicationRequest;
 use App\Http\Requests\medication\UpdateMedicationRequest;
+use App\Imports\MedicationsImport;
+use Maatwebsite\Excel\Facades\Excel;
+
 use App\Models\Medication;
+use Illuminate\Http\Request;
 
 class MedicationController extends Controller
 {
@@ -13,6 +17,12 @@ class MedicationController extends Controller
     {
         $medications = Medication::all();
         return view('medications.index', compact('medications'));
+    }
+
+    public function import(Request $request)
+    {
+        Excel::import(new MedicationsImport, $request->file('file'));
+        dd('imported successfully');
     }
 
     public function show($id)
