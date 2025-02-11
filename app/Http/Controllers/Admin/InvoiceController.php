@@ -8,7 +8,7 @@ use App\Models\Medication;
 use App\Models\InvoiceItems;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 class InvoiceController extends Controller
 {
 
@@ -40,6 +40,7 @@ class InvoiceController extends Controller
         $request->validate([
             'patient_id' => 'required|exists:patients,id',
             'date' => 'required|date',
+            'serial'=> 'required|string',
             'items' => 'required|array|min:1',
             'items.*.medication_id' => 'required|exists:medications,id',
             'items.*.quantity' => 'required|integer|min:1'
@@ -48,6 +49,7 @@ class InvoiceController extends Controller
         $invoice = Invoice::create([
             'patient_id' => $request->patient_id,
             'date' => $request->date,
+            'serial' => $request->serial,
             'total_support' => 0
         ]);
     
@@ -56,12 +58,10 @@ class InvoiceController extends Controller
         foreach ($request->items as $item) {
             $medication = Medication::findOrFail($item['medication_id']);
             
-            // Check stock availability
             if ($medication->quantity < $item['quantity']) {
                 return back()->with('error', "Not enough stock for {$medication->name}");
             }
     
-            // Update medication stock
             $medication->decrement('quantity', $item['quantity']);
     
             $invoiceItem = InvoiceItems::create([
@@ -80,5 +80,20 @@ class InvoiceController extends Controller
         return redirect()->route('invoices.index')->with('success', 'تم إنشاء الفاتورة بنجاح');
     }
 
+
+    public function download(Invoice $invoice)
+    {
+        $invoice->load(['patient', 'items.medication']);
+
+        $pdf = Pdf::loadView('invoices.pdf', compact('invoice'));
+
+        return $pdf->download("invoice-{$invoice->id}.pdf");
+    }
+
+    public function print(Invoice $invoice)
+    {
+        $invoice->load(['patient', 'items.medication']);
+        return view('invoices.print', compact('invoice'));
+    }
 
 }

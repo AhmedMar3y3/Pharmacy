@@ -50,6 +50,9 @@ Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])->name('inv
 Route::post('/store-invoice', [InvoiceController::class, 'store'])->name('invoices.store');
 Route::put('/update-invoice/{id}', [InvoiceController::class, 'update'])->name('invoices.update');
 Route::get('/invoices', [InvoiceController::class,'index'])->name('invoices.index');
+Route::get('/invoices/{invoice}/download', [InvoiceController::class, 'download'])->name('invoices.download');
+Route::get('/invoices/{invoice}/print', [InvoiceController::class, 'print'])->name('invoices.print');
+
 
 //clients
 Route::get('/clients', [PatientController::class, 'index'])->name('clients.index');

@@ -84,6 +84,10 @@
                         <label for="date" class="form-label">التاريخ</label>
                         <input type="date" name="date" id="date" class="form-control" required>
                     </div>
+                    <div class="mb-3">
+                        <label for="serial" class="form-label">رقم السيريال</label>
+                        <input type="text" name="serial" id="serial" class="form-control" required>
+                    </div>
                     <div id="items-container">
                         <div class="item-row mb-3">
                             <div class="row">
@@ -134,6 +138,7 @@
                 <div class="modal-body">
                     <!-- Invoice Details (server-side rendered) -->
                     <div class="mb-4">
+                        <p><strong>رقم السيريال:</strong> {{ $invoice->serial }}</p>
                         <p><strong>اسم المريض:</strong> {{ $invoice->patient->name }}</p>
                         <p><strong>التاريخ:</strong> {{ $invoice->date }}</p>
                         <p>
@@ -179,11 +184,22 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                    <button type="button" class="btn btn-primary" onclick="printInvoice({{ $invoice->id }})">طباعة</button>
+                    <a href="{{ route('invoices.download', $invoice->id) }}" class="btn btn-info">تحميل PDF</a>
                 </div>
             </div>
         </div>
     </div>
 @endforeach
+
+<script>
+    function printInvoice(invoiceId) {
+        var printUrl = "{{ url('invoices') }}/" + invoiceId + "/print";
+        var printWindow = window.open(printUrl, '_blank');
+        printWindow.focus();
+
+    }
+</script>
 
 <!-- Optional: JavaScript for adding/removing medication items in the Create Invoice Modal -->
 <script>
