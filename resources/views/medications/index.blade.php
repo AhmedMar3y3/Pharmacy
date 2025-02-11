@@ -19,7 +19,7 @@
         <div class="alert alert-success">
             {{ session('success') }}
         </div>
-    @endif
+    @endif 
 
  <!-- Add Medication Button -->
  <button type="button" class="btn btn-primary mb-3 me-auto d-block" data-bs-toggle="modal" data-bs-target="#createModal">
