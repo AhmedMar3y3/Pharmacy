@@ -11,12 +11,7 @@ class MedicationController extends Controller
 {
     public function index()
     {
-        $query = request()->input('search');
-        if ($query) {
-            $medications = Medication::where('name', 'LIKE', "%{$query}%")->get();
-        } else {
-            $medications = Medication::paginate(20);
-        }
+        $medications = Medication::all();
         return view('medications.index', compact('medications'));
     }
 

@@ -31,8 +31,7 @@ class PatientController extends Controller
     public function show($id)
     {
         $client = Patient::findOrFail($id);
-        dd($client); 
-        return view('clients.index', compact('client'));
+        return response()->json($client);
     }
 
     public function store(StorePatientRequest $request)

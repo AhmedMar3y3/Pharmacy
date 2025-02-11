@@ -25,13 +25,10 @@ class StorePatientRequest extends FormRequest
     {
         return [
             "name"      => "required|string",
-            "phone"     => "required|string",
-            "address"   => "nullable|string",
-            "ID_number"=> [
-                "required",
-                "string",
-                Rule::unique("patients","ID_number")->whereNull("deleted_at"),
-            ],
+            "ID_number" => "required|string|unique:patients,ID_number",
+            "phone"     => "nullable|string",
+            "Worker_number"   => "required|string",
+
         ];
     }
 }
