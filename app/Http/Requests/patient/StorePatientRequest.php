@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\patient;
 
+
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StorePatientRequest extends FormRequest
 {
@@ -24,8 +26,9 @@ class StorePatientRequest extends FormRequest
         return [
             "name"      => "required|string",
             "ID_number" => "required|string|unique:patients,ID_number",
-            "phone"     => "required|string",
-            "id"   => "nullable|integer|unique:patients,id",
+            "phone"     => "nullable|string",
+            "Worker_number"   => "required|string",
+
         ];
     }
 }

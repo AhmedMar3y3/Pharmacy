@@ -3,6 +3,16 @@
 @section('main')
 <div class="container">
     <h1>العملاء</h1>
+    <form method="GET" action="{{ route('clients.index') }}" class="mb-4">
+        <div class="row">
+            <div class="col-md-10">
+                <input type="text" name="query" class="form-control" placeholder="ابحث بالاسم أو رقم الهوية" value="{{ request('query') }}">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary">بحث</button>
+            </div>
+        </div>
+    </form>
     
     @if(session('success'))
         <div class="alert alert-success">
