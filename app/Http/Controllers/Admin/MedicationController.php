@@ -19,12 +19,6 @@ class MedicationController extends Controller
         return view('medications.index', compact('medications'));
     }
 
-    public function import(Request $request)
-    {
-        Excel::import(new MedicationsImport, $request->file('file'));
-        dd('imported successfully');
-    }
-
     public function show($id)
     {
         $medication = Medication::find($id);

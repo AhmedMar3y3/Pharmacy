@@ -35,16 +35,16 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
     </div>
     <div class="modal-body">
-            <form id="excelExportForm" action="{{ route('medications.import') }}" method="POST" enctype="multipart/form-data">
+        <form id="excelExportForm" action="{{ route('medications.import') }}" method="POST" enctype="multipart/form-data">
             @csrf
-                <input type="file" name="file">
-
-            </div>
-            
+            <input type="file" name="file" accept=".xlsx, .xls" required>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
                 <button type="submit" class="btn btn-primary" id="exportExcelBtn">تصدير</button>
-            </form>
+            </div>
+        </form>
+        
+        
     </div>
     </div>
 </div>
