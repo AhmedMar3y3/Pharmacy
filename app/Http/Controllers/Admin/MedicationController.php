@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Medication;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\medication\StoreMedicationRequest;
 use App\Http\Requests\medication\UpdateMedicationRequest;
-use App\Imports\MedicationsImport;
-use Maatwebsite\Excel\Facades\Excel;
-
-use App\Models\Medication;
-use Illuminate\Http\Request;
 
 class MedicationController extends Controller
 {

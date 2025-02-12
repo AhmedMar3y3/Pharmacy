@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Patient;
+use App\Models\Contract;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\patient\StorePatientRequest;
-use Illuminate\Http\Request;
-use App\Models\Contract;
-use Illuminate\Validation\Rule;
 
 
 class PatientController extends Controller
@@ -15,7 +15,6 @@ class PatientController extends Controller
     public function index()
     {
         $search = request()->input('query');
-
         $query = Patient::query();
 
         if ($search) {
@@ -27,7 +26,7 @@ class PatientController extends Controller
 
         $clients = $query->with('contract')->get();
         $contracts = Contract::all();
-        return view('clients.index', compact('clients','contracts'));
+        return view('clients.index', compact('clients', 'contracts'));
     }
 
 
@@ -41,18 +40,18 @@ class PatientController extends Controller
     {
         Patient::create($request->validated());
         $contracts = Contract::all();
-        return redirect()->route('clients.index',compact('contracts'))->with('success', 'تم اضافة العميل بنجاح');
+        return redirect()->route('clients.index', compact('contracts'))->with('success', 'تم اضافة العميل بنجاح');
     }
 
     public function update(Request $request, $id)
     {
-        // Adjust the unique rule for ID_number to ignore the current client
         $validatedData = $request->validate([
             "name"       => "nullable|string",
             "phone"      => "nullable|string",
             "worker_num" => "nullable|string",
-            "contract_id"=> "nullable|exists:contracts,id",
-            "ID_number"  => [
+            "contract_id" => "nullable|exists:contracts,id",
+            "ID_number"  =>
+             [
                 "nullable",
                 "string",
                 Rule::unique('patients', 'ID_number')->ignore($id),

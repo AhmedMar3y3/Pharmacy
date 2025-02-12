@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Invoice extends Model
 {
@@ -16,11 +16,12 @@ class Invoice extends Model
         "serial",
     ];
 
-    public function patient(){
+    public function patient()
+    {
         return $this->belongsTo(Patient::class);
     }
-    public function items(){
+    public function items()
+    {
         return $this->hasMany(InvoiceItems::class);
     }
-
 }

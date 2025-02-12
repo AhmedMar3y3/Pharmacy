@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Patient extends Model
 {
@@ -26,6 +26,6 @@ class Patient extends Model
 
     public function contract()
     {
-        return $this->belongsTo(Contract::class,'contract_id');
+        return $this->belongsTo(Contract::class, 'contract_id');
     }
 }

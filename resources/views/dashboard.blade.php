@@ -73,7 +73,6 @@
 <!-- تضمين Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // بيانات عدد العملاء
     const patientsData = {
         labels: ['عدد العملاء'],
         datasets: [{
@@ -85,7 +84,6 @@
         }]
     };
 
-    // بيانات عدد الفواتير والعقود
     const invoicesContractsData = {
         labels: ['الفواتير', 'العقود'],
         datasets: [{
@@ -103,10 +101,9 @@
         }]
     };
 
-    // رسم مخطط عدد العملاء
     const patientsCtx = document.getElementById('patientsChart').getContext('2d');
     new Chart(patientsCtx, {
-        type: 'bar', // نوع الرسم البياني (عمودي)
+        type: 'bar',
         data: patientsData,
         options: {
             scales: {
