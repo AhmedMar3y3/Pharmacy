@@ -15,7 +15,7 @@ class InvoiceController extends Controller
     public function index()
     {
         $patients = Patient::all();
-        $medications = Medication::all();
+        $medications = Medication::limit(10)->get();
         $invoices = Invoice::paginate(15);
         return view('invoices.index', compact('invoices', 'medications', 'patients'));
     }

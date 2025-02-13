@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\ContractController;
 use App\Http\Controllers\Admin\ReportController;
-
+use App\Models\Medication;
+use Illuminate\Http\Request;
 
 
 // Public Routes
@@ -53,4 +54,14 @@ Route::delete('/delete-contract/{id}', [ContractController::class, 'destroy'])->
 Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 Route::get('/reports/{contract}', [ReportController::class, 'show'])->name('reports.show');
 Route::get('/reports/{contract}/print', [ReportController::class, 'print'])->name('reports.print');
+
+
+
+
+Route::get('/medications/search', function (Request $request) {
+    $query = $request->input('query');
+    $medications = Medication::where('name', 'like', "%{$query}%")->limit(10)->get();
+    return response()->json($medications);
+});
+
 });

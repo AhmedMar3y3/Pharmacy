@@ -22,33 +22,7 @@
         @endif 
         
         
-<!-- import excel Medication Medication -->
-<button type="button" class="btn btn-primary mb-3 me-auto d-block" data-bs-toggle="modal" data-bs-target="#excelModal">
-    <i class="fas fa-plus"></i> تصدير اكسل
-</button>
 
-<div class="modal fade" id="excelModal" tabindex="-1" aria-labelledby="excelModalLabel" aria-hidden="true">
-<div class="modal-dialog">
-    <div class="modal-content">
-    <div class="modal-header">
-        <h5 class="modal-title" id="excelModalLabel">تصدير ملف Excel</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
-    </div>
-    <div class="modal-body">
-        <form id="excelExportForm" action="{{ route('medications.import') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <input type="file" name="file" accept=".xlsx, .xls" required>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
-                <button type="submit" class="btn btn-primary" id="exportExcelBtn">تصدير</button>
-            </div>
-        </form>
-        
-        
-    </div>
-    </div>
-</div>
-</div>
 
 
 
@@ -103,6 +77,22 @@
         </tbody>
     </table>
 
+      <!-- Pagination Buttons -->
+  <div class="d-flex justify-content-between mt-4">
+    <!-- Previous Page Button -->
+    @if($medications->onFirstPage())
+    <span class="btn btn-secondary btn-rounded disabled">السابق</span>
+    @else
+    <a href="{{ $medications->previousPageUrl() }}" class="btn btn-primary btn-rounded">السابق</a>
+    @endif
+
+    <!-- Next Page Button -->
+    @if($medications->hasMorePages())
+    <a href="{{ $medications->nextPageUrl() }}" class="btn btn-primary btn-rounded">التالي</a>
+    @else
+    <span class="btn btn-secondary btn-rounded disabled">التالي</span>
+    @endif
+</div>
     <!-- Create Medication Modal -->
     <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
         <div class="modal-dialog">

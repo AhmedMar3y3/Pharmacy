@@ -11,7 +11,11 @@ class MedicationController extends Controller
 {
     public function index()
     {
-        $medications = Medication::all();
+        $search = (string) request('search');
+        $medications = Medication::when($search, function ($query, $search) {
+            $query->where('name', 'like', "%{$search}%");
+        })->paginate(20);
+
         return view('medications.index', compact('medications'));
     }
 
