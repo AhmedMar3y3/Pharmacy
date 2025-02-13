@@ -2,7 +2,13 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <h1>صيدلية دكتور رامي</h1>
+    <h1 style="text-align: center">صيدليات مكة</h1>
+    <p style="text-align: center; line-gap-override: 1.6; display: flex; justify-content: center; gap: 20px;">
+        <span>الرقم الضريبي : 253-135-601</span>
+        <span>السجل التجاري : 97810</span>
+        <span>موبايل : 01009333880</span>
+    </p>
+    <hr>
     <title>تقرير العقد: {{ $contract->name }} - {{ $monthParam }}</title>
     <style>
         h1 {
@@ -61,24 +67,33 @@
     <table>
         <thead>
             <tr>
+                <th>رقم العامل</th>
                 <th>العميل</th>
-                <th>إجمالي سعر الفواتير<br>(قبل الخصم)</th>
-                <th>إجمالي الدعم<br>(بعد الخصم)</th>
+                <th>الإجمالي قبل الخصم</th>
+                <th>إجمالي الادوية المحلية</th>
+                <th>إجمالي الادوية المستوردة</th>
+                <th>الإجمالي بعد الخصم</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($patientReports as $report)
                 <tr>
+                    <td>{{ $report['patient']->worker_num }}</td>
                     <td>{{ $report['patient']->name }}</td>
                     <td>{{ number_format($report['total_invoice_price'], 2) }}</td>
+                    <td>{{ number_format($report['total_local_price'], 2) }}</td>
+                    <td>{{ number_format($report['total_imported_price'], 2) }}</td>
                     <td>{{ number_format($report['total_supported_price'], 2) }}</td>
                 </tr>
             @endforeach
         </tbody>
         <tfoot>
             <tr>
+                <th style="background: gray"></th>
                 <th>المجموع الكلي</th>
                 <th>{{ number_format($grandTotalInvoicePrice, 2) }}</th>
+                <th>{{ number_format($grandTotalLocalPrice, 2) }}</th>
+                <th>{{ number_format($grandTotalImportedPrice, 2) }}</th>
                 <th>{{ number_format($grandTotalSupportedPrice, 2) }}</th>
             </tr>
         </tfoot>

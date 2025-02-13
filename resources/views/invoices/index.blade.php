@@ -178,8 +178,8 @@
                                 return $item->price * $item->quantity;
                             }), 2) }}
                         </p>
-                        <p><strong>إجمالي السعر المدعوم:</strong> {{ number_format($invoice->total_support, 2) }}</p>
-                        <p><strong>إجمالي الدعم: </strong> 
+                        <p><strong>الإجمالي بعد الخصم:</strong> {{ number_format($invoice->total_support, 2) }}</p>
+                        <p><strong>حاصل الخصم : </strong> 
                             {{ number_format($invoice->items->sum(function($item) {
                                 return $item->price * $item->quantity;
                             }) - $invoice->total_support, 2) }}
@@ -192,7 +192,7 @@
                                 <th>الدواء</th>
                                 <th>الكمية</th>
                                 <th>السعر</th>
-                                <th>السعر المدعوم</th>
+                                <th>السعر بعد الخصم</th>
                                 <th>الإجمالي</th>
                             </tr>
                         </thead>
