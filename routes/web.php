@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\ContractController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,5 +76,11 @@ Route::get('/reports', [ReportController::class, 'index'])->name('reports.index'
 Route::get('/reports/{contract}', [ReportController::class, 'show'])->name('reports.show');
 Route::get('/reports/{contract}/print', [ReportController::class, 'print'])->name('reports.print');
 
+//profile
 
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.show');
+Route::get('/profile/{id}/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::put('/profile/{id}', [ProfileController::class, 'update'])->name('profile.update');
+Route::post('/profile/{id}/check-password', [ProfileController::class, 'checkPassword'])->name('profile.checkPassword');
 });

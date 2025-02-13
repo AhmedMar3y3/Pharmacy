@@ -139,6 +139,15 @@
         </a>
       </li>
 
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {{ request()->routeIs('profile.index') ? 'active' : '' }}" href="{{ route('profile.index') }}">
+        <i class="bi bi-fan"></i>
+        <span>الإعدادات<span>  
+      </a>
+    </li>
+    
+
     </ul>
   </aside>
 
