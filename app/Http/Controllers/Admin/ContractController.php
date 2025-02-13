@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Contract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\contract\StoreContractRequest;
 use App\Http\Requests\contract\UpdateContractRequest;
-use Illuminate\Http\Request;
-use App\Models\Contract;
 
 class ContractController extends Controller
 {

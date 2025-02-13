@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class InvoiceItems extends Model
 {
@@ -17,11 +17,13 @@ class InvoiceItems extends Model
         "supported_price",
     ];
 
-    public function invoice(){
+    public function invoice()
+    {
         return $this->belongsTo(Invoice::class);
     }
 
-    public function medication(){
+    public function medication()
+    {
         return $this->belongsTo(Medication::class);
     }
 }

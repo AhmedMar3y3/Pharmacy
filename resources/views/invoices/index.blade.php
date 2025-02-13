@@ -114,7 +114,7 @@
                                 <!-- Medication Selection -->
                                 <div class="col-md-4">
                                     <label>الدواء</label>
-                                    <select name="items[0][medication_id]" class="form-select medication-select" required>
+                                    <select name="items[0][medication_id]" class="form-select" required>
                                         <option value="">اختر الدواء</option>
                                         @foreach ($medications as $medication)
                                             <option value="{{ $medication->id }}"
@@ -216,7 +216,6 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
                     <button type="button" class="btn btn-primary" onclick="printInvoice({{ $invoice->id }})">طباعة</button>
-                    <a href="{{ route('invoices.download', $invoice->id) }}" class="btn btn-info">تحميل PDF</a>
                 </div>
             </div>
         </div>
@@ -263,4 +262,5 @@
 });
 
 </script>
+    
 @endsection

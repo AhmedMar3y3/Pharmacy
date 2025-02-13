@@ -8,15 +8,13 @@ use Maatwebsite\Excel\Concerns\ToModel;
 class MedicationsImport implements ToModel
 {
     /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
+     * Map each row from the Excel file to the Medication model.
+     */
     public function model(array $row)
     {
         return new Medication([
-            'name'=>$row[2],
-            'price'=>$row[7],
+            'name'  => $row[1],
+            'price' => $row[0],
         ]);
     }
 }

@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
+use App\Http\Requests\Admin\login;
+use App\Http\Requests\Admin\store;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\Admin\login;
-use App\Http\Requests\Admin\store;
-use App\Models\User;
 
 
 class AuthController extends Controller
 {
 
-// Api
+    // Api
     public function register(store $request)
     {
         $validatedData = $request->validated();
@@ -34,8 +34,7 @@ class AuthController extends Controller
 
     public function login(login $request)
     {
-        $validatedData = $request->validated();
-
+        $request->validated();
         $user = User::where('email', $request->input('email'))->first();
 
         if (!$user || !Hash::check($request->input('password'), $user->password)) {
