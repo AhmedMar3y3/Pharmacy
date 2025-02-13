@@ -15,7 +15,7 @@ class InvoiceController extends Controller
     public function index()
     {
         $patients = Patient::all();
-        $medications = Medication::limit(10)->get();
+        $medications = Medication::all();
         $invoices = Invoice::paginate(15);
         return view('invoices.index', compact('invoices', 'medications', 'patients'));
     }
@@ -24,14 +24,14 @@ class InvoiceController extends Controller
         $invoice->load(['patient', 'items.medication']);
         return view('invoices.show', compact('invoice'));
     }
+    
+        public function create()
+        {
+            $patients = Patient::all();
+            $medications = Medication::all();
+            return view('invoices.index', compact('patients', 'medications'));
+        }
 
-
-    public function create()
-    {
-        $patients = Patient::all();
-        $medications = Medication::all();
-        return view('invoices.index', compact('patients', 'medications'));
-    }
 
     public function store(Request $request)
     {

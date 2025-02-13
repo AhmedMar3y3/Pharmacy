@@ -24,7 +24,7 @@ class PatientController extends Controller
             });
         }
 
-        $clients = $query->with('contract')->get();
+        $clients = $query->with('contract')->paginate(15);
         $contracts = Contract::all();
         return view('clients.index', compact('clients', 'contracts'));
     }

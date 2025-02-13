@@ -83,6 +83,22 @@
                 @endforelse
             </tbody>
         </table>
+
+        <div class="d-flex justify-content-between mt-4">
+            <!-- Previous Page Button -->
+            @if($clients->onFirstPage())
+            <span class="btn btn-secondary btn-rounded disabled">السابق</span>
+            @else
+            <a href="{{ $clients->previousPageUrl() }}" class="btn btn-primary btn-rounded">السابق</a>
+            @endif
+        
+            <!-- Next Page Button -->
+            @if($clients->hasMorePages())
+            <a href="{{ $clients->nextPageUrl() }}" class="btn btn-primary btn-rounded">التالي</a>
+            @else
+            <span class="btn btn-secondary btn-rounded disabled">التالي</span>
+            @endif
+        </div>
     </div>
 
     <!-- Show Client Modal -->

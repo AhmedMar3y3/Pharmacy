@@ -16,7 +16,9 @@
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -48,7 +50,7 @@
             <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
               <div class="d-flex justify-content-center py-4" style="margin-top: 20px;">
                 {{-- <img src="assets/img/1.png" style="width: 75%; height: auto;"> --}}
-                </div>
+              </div>
 
               <div class="card mb-3">
                 <div class="card-body">
@@ -57,41 +59,39 @@
                     <p class="text-center small">أدخل بريدك الإلكتروني وكلمة المرور لتسجيل الدخول</p>
                   </div>
                   @if (Session::has('success'))
-                  <div class="alert alert-success">{{Session::get('success')}}</div>
-                  @endif
+            <div class="alert alert-success">{{Session::get('success')}}</div>
+          @endif
                   @if (Session::has('error'))
-                  <div class="alert alert-danger">{{ Session::get('error') }}</div>
-                  @endif
+            <div class="alert alert-danger">{{ Session::get('error') }}</div>
+          @endif
 
-                  <form class="row g-3 needs-validation" action="{{ route('login') }}" method="POST">
+                  <form class="row g-3 needs-validation" action="{{ route('loginUser') }}" method="POST">
                     @csrf
                     <div class="col-12">
-                        <label for="yourEmail" class="form-label">البريد الإلكتروني</label>
-                        <div class="input-group has-validation">
-                            <span class="input-group-text" id="inputGroupPrepend">@</span>
-                            <input type="email" name="email" class="form-control" value="{{ old('email') }}">
-                            <div class="invalid-feedback">يرجى إدخال بريدك الإلكتروني.</div>
-                        </div>
-                        <span class="text-danger">@error('email'){{ $message }}@enderror</span>
+                      <label for="yourEmail" class="form-label">البريد الإلكتروني</label>
+                      <div class="input-group has-validation">
+                        <span class="input-group-text" id="inputGroupPrepend">@</span>
+                        <input type="email" name="email" class="form-control" value="{{ old('email') }}">
+                        <div class="invalid-feedback">يرجى إدخال بريدك الإلكتروني.</div>
+                      </div>
+                      <span class="text-danger">@error('email'){{ $message }}@enderror</span>
                     </div>
-                
+
                     <div class="col-12">
-                        <label for="yourPassword" class="form-label">كلمة المرور</label>
-                        <input type="password" name="password" class="form-control">
-                        <div class="invalid-feedback">يرجى إدخال كلمة المرور!</div>
-                        <span class="text-danger">@error('password'){{ $message }}@enderror</span>
+                      <label for="yourPassword" class="form-label">كلمة المرور</label>
+                      <input type="password" name="password" class="form-control">
+                      <div class="invalid-feedback">يرجى إدخال كلمة المرور!</div>
+                      <span class="text-danger">@error('password'){{ $message }}@enderror</span>
                     </div>
-                
+
                     <div class="col-12">
-                        <button class="btn btn-primary w-100" type="submit">تسجيل الدخول</button>
+                      <button class="btn btn-primary w-100" type="submit">تسجيل الدخول</button>
                     </div>
                     <div class="col-12">
-                      {{-- <p class="small mb-0">ليس لديك حساب؟ <a href="{{ route('auth.register') }}">إنشاء حساب</a></p> --}}
                     </div>
-                </form>
+                  </form>
                 </div>
               </div>
-              {{-- <p class="small mt-3 text-center">نسيت كلمة المرور؟ <a href="{{ route('auth.forgot-password') }}">تغيير كلمة المرور</a></p> --}}
 
             </div>
           </div>
@@ -100,7 +100,8 @@
     </div>
   </main>
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
   <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>

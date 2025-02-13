@@ -9,13 +9,12 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\ContractController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\ProfileController;
-use App\Models\Medication;
-use Illuminate\Http\Request;
+
 
 
 // Public Routes
-Route::get('/', [AuthController::class, 'loadLogin'])->name('login.page');
-Route::post('/login-user', [AuthController::class, 'login'])->name('login');
+Route::get('/', [AuthController::class, 'loadLoginPage'])->name('loginPage');
+Route::post('/login-admin', [AuthController::class, 'loginUser'])->name('loginUser');
 
 Route::middleware(['auth:sanctum'])->group(function () {
 
@@ -64,11 +63,6 @@ Route::get('/profile/{id}/edit', [ProfileController::class, 'edit'])->name('prof
 Route::put('/profile/{id}', [ProfileController::class, 'update'])->name('profile.update');
 Route::post('/profile/{id}/check-password', [ProfileController::class, 'checkPassword'])->name('profile.checkPassword');
 
-
-Route::get('/medications/search', function (Request $request) {
-    $query = $request->input('query');
-    $medications = Medication::where('name', 'like', "%{$query}%")->limit(10)->get();
-    return response()->json($medications);
-});
+Route::get('/invoices/medications/search', [InvoiceController::class, 'searchMedications'])->name('invoices.medications.search');
 
 });

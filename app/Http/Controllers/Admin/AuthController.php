@@ -27,22 +27,22 @@ class AuthController extends Controller
     }
 
     //web
-    public function loadLogin()
+    public function loadLoginPage()
     {
         return view('login');
     }
 
-    public function login(login $request)
+    public function loginUser(login $request)
     {
         $request->validated();
         $user = User::where('email', $request->input('email'))->first();
 
         if (!$user || !Hash::check($request->input('password'), $user->password)) {
-            return redirect()->route('login.page');
+            return back()->with('error', 'البريد الالكتروني او كلمة المرور غير صحيحة');
         }
 
-        Auth::login($user);
-        return redirect()->route('dashboard');
+        Auth::login($user);   
+        return redirect()->route('dashboard')->with('success', 'تم تسجيل الدخول بنجاح');
     }
 
 
@@ -50,6 +50,6 @@ class AuthController extends Controller
     {
         $user = Auth::user();
         $user->tokens()->delete();
-        return redirect()->route('login.page');
+        return redirect()->route('load.login');
     }
 }
