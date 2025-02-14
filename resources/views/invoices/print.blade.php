@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
 
-    <h1 style="text-align: center">صيدليات مكة</h1>
-    <p style="text-align: center; line-gap-override: 1.6; display: flex; justify-content: center; gap: 20px;">
-        <span>الرقم الضريبي : 253-135-601</span>
+    <h1 style="text-align: center; font-size: 18px;">صيدليات مكة</h1>
+    <p style="text-align: center; line-gap-override: 1.6; display: flex; justify-content: center; gap: 20px; font-size: 12px;">
         <span>السجل التجاري : 97810</span>
         <span>موبايل : 01009333880</span>
+        <span>الرقم الضريبي :253-135-601</span>
     </p>
     <hr>
     <title>فاتورة رقم {{ $invoice->serial }}</title>
@@ -18,20 +18,20 @@
             font-family: 'Amiri', DejaVu Sans, sans-serif;
             direction: rtl;
             text-align: right;
-            font-size: 14px;
-            margin: 20px;
+            font-size: 10px;
+            margin: 10px;
         }
         h1, p {
-            margin: 0 0 10px 0;
+            margin: 0 0 5px 0;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 10px;
         }
         th, td {
             border: 1px solid #ccc;
-            padding: 8px;
+            padding: 4px;
         }
         th {
             background-color: #f2f2f2;
@@ -51,7 +51,7 @@
     </script>
 </head>
 <body>
-    <h1>فاتورة رقم: {{ $invoice->serial }}</h1>
+    <h1 style="font-size: 14px;">فاتورة رقم: {{ $invoice->serial }}</h1>
     <p><strong>اسم العميل:</strong> {{ $invoice->patient->name }}</p>
     <p><strong>التاريخ:</strong> {{ $invoice->date }}</p>
     <p>
@@ -90,7 +90,7 @@
         </tbody>
     </table>
     <!-- Optionally, add a "Return" link if desired -->
-    <div class="no-print" style="margin-top: 20px;">
+    <div class="no-print" style="margin-top: 10px;">
         <a href="{{ route('invoices.index') }}">عودة إلى الفواتير</a>
     </div>
 </body>
