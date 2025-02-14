@@ -40,9 +40,9 @@
                     <td>{{ $invoice->patient->name }}</td>
                     <td>{{ $invoice->date }}</td>
                     <td>
-                        ${{ number_format($invoice->items->sum(function($item) { 
+                       {{ number_format($invoice->items->sum(function($item) { 
                             return $item->price * $item->quantity; 
-                        }), 2) }}
+                        }), 2) }} ج.م 
                     </td>
                     <td>
                         <!-- Instead of an AJAX call, each invoice has its own modal -->
@@ -112,25 +112,29 @@
                         <div class="item-row mb-3">
                             <div class="row">
                                 <!-- Medication Selection -->
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label>الدواء</label>
                                     <select name="items[0][medication_id]" class="form-select" required>
                                         <option value="">اختر الدواء</option>
                                         @foreach ($medications as $medication)
-                                            <option value="{{ $medication->id }}"
-                                                data-price="{{ $medication->price }}">
+                                            <option value="{{ $medication->id }}" data-price="{{ $medication->price }}">
                                                 {{ $medication->name }}
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <!-- Quantity Input -->
+                                <!-- Price Input -->
                                 <div class="col-md-3">
+                                    <label>السعر</label>
+                                    <input type="number" step="0.01" name="items[0][price]" class="form-control price-input" placeholder="السعر" required>
+                                </div>
+                                <!-- Quantity Input -->
+                                <div class="col-md-2">
                                     <label>الكمية</label>
                                     <input type="number" name="items[0][quantity]" class="form-control" placeholder="الكمية" min="1" required>
                                 </div>
                                 <!-- Type Selection -->
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <label>النوع</label>
                                     <select name="items[0][type]" class="form-select" required>
                                         <option value="">اختر النوع</option>
@@ -144,6 +148,7 @@
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
                     <!-- Add More Items Button -->
                     <button type="button" id="add-item" class="btn btn-secondary mb-3">إضافة دواء</button>
@@ -234,21 +239,51 @@
 
 <!-- Optional: JavaScript for adding/removing medication items in the Create Invoice Modal -->
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Add Medication Item
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to update the price input based on selected medication
+    function updatePrice(selectElement) {
+        // Get the selected option's data-price attribute
+        var selectedOption = selectElement.options[selectElement.selectedIndex];
+        var price = selectedOption.getAttribute('data-price');
+        // Find the corresponding price input in the same row
+        var row = selectElement.closest('.row');
+        var priceInput = row.querySelector('.price-input');
+        if (price && priceInput) {
+            priceInput.value = price;
+        } else if (priceInput) {
+            priceInput.value = '';
+        }
+    }
+
+    // Attach change event to existing medication selects
+    document.querySelectorAll('select[name^="items"][name$="[medication_id]"]').forEach(function(select) {
+        select.addEventListener('change', function() {
+            updatePrice(this);
+        });
+    });
+
+    // Add Medication Item (Clone Row)
     let itemIndex = 1;
     document.getElementById('add-item').addEventListener('click', function() {
         const newRow = document.querySelector('.item-row').cloneNode(true);
         const newIndex = itemIndex++;
 
         // Update names and clear values for all inputs/selects in the new row
-        newRow.querySelectorAll('select, input').forEach(element => {
+        newRow.querySelectorAll('select, input').forEach(function(element) {
             // Replace the index inside square brackets
             element.name = element.name.replace(/\[\d+\]/, `[${newIndex}]`);
             element.value = '';
         });
 
         document.getElementById('items-container').appendChild(newRow);
+
+        // Attach change event for the new row's medication select
+        var newMedSelect = newRow.querySelector('select[name^="items"][name$="[medication_id]"]');
+        if (newMedSelect) {
+            newMedSelect.addEventListener('change', function() {
+                updatePrice(this);
+            });
+        }
     });
 
     // Remove Medication Item
@@ -260,6 +295,7 @@
         }
     });
 });
+
 
 </script>
     
