@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <h1 style="text-align: center">صيدليات مكة</h1>
-    <p style="text-align: center; display: flex; justify-content: center; gap: 20px;">
+    <p style="text-align: center; line-gap-override: 1.6; display: flex; justify-content: center; gap: 20px;">
         <span>الرقم الضريبي : 253-135-601</span>
         <span>السجل التجاري : 97810</span>
         <span>موبايل : 01009333880</span>
@@ -11,7 +11,14 @@
     <hr>
     <title>تقرير العقد: {{ $contract->name }} - {{ $monthParam }}</title>
     <style>
-        /* General Styles */
+        h1 {
+            font-size: 24px;
+        }
+        p strong {
+            font-size: 18px;
+        }
+    </style>
+    <style>
         body {
             font-family: 'Amiri', DejaVu Sans, sans-serif;
             direction: rtl;
@@ -31,36 +38,16 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            font-size: 12px;
         }
         th, td {
             border: 1px solid #ccc;
-            padding: 4px;
+            padding: 8px;
             text-align: center;
         }
         th {
             background-color: #f2f2f2;
         }
-
-        /* Set a custom page size and margins if needed */
-        @page {
-            size: 4in 9in; /* Adjust these dimensions to your envelope size */
-            margin: 5mm;
-        }
-
-        /* Print-specific Styles */
         @media print {
-            body {
-                font-size: 10px;
-                margin: 5mm;
-            }
-            table {
-                font-size: 10px;
-                margin-top: 10px;
-            }
-            th, td {
-                padding: 2px;
-            }
             .no-print {
                 display: none;
             }
