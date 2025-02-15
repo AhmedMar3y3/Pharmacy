@@ -41,7 +41,7 @@ class InvoiceController extends Controller
                 'serial'     => 'required|string',
                 'items'      => 'required|array|min:1',
                 'items.*.medication_id' => 'required|exists:medications,id',
-                'items.*.quantity'      => 'required|integer|min:1',
+                'items.*.quantity'      => 'required|numeric|min:0.01',
                 'items.*.type'          => 'required|in:local,imported',
                 'items.*.price'         => 'required|numeric|min:0',
             ]);

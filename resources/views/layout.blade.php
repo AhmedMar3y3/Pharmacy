@@ -60,7 +60,7 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
   <div class="d-flex align-items-center justify-content-between">
     <a href="{{ route('dashboard') }}" class="logo d-flex align-items-center">
-      <span class="d-none d-lg-block" style="margin-right: 15px; color: white;">صيدلية دكتور رامي</span>
+      <span class="d-none d-lg-block" style="margin-right: 15px; color: white;">صيدليات مكة</span>
     </a>
     <i class="bi bi-list toggle-sidebar-btn"></i>
   </div>
