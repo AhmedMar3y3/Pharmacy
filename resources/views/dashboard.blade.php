@@ -3,23 +3,41 @@
 <div class="container mt-5">
     <div class="row">
         <!-- بطاقة عدد العملاء -->
-        <div class="col-md-4">
-            <div class="card text-white bg-soft-blue mb-3">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="card-title">عدد العملاء</h5>
-                            <p class="card-text">{{ $patientCount }}</p>
-                        </div>
-                        <i class="fas fa-users fa-3x"></i>
-                    </div>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card info-card customers-card shadow">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="card-title">عدد العملاء</h5>
+                    <p class="card-text">{{ $patientCount }}</p>
                 </div>
+                <i class="fas fa-users fa-3x"></i>
+                </div>
+            </div>
             </div>
         </div>
 
+        {{-- <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card info-card customers-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                    <h5 class="card-title">عدد العملاء</h5>
+                    <p>{{ $patientCount }}</p>
+                </div>
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        </div>
+                        <div class="ps-3">
+                            <i class="fas fa-users fa-3x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
+
         <!-- بطاقة عدد الفواتير -->
-        <div class="col-md-4">
-            <div class="card text-white bg-soft-green mb-3">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="card info-card customers-card shadow">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
@@ -33,8 +51,8 @@
         </div>
 
         <!-- بطاقة عدد العقود -->
-        <div class="col-md-4">
-            <div class="card text-white bg-soft-orange mb-3">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card info-card customers-card shadow">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
@@ -62,7 +80,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">عدد الفواتير والعقود</h5>
+                    <h5 class="card-title">عدد الفواتير والعملاء</h5>
                     <canvas id="invoicesContractsChart"></canvas>
                 </div>
             </div>
@@ -85,10 +103,10 @@
     };
 
     const invoicesContractsData = {
-        labels: ['الفواتير', 'العقود'],
+        labels: ['الفواتير', 'العملاء'],
         datasets: [{
             label: 'العدد',
-            data: [{{ $invoice }}, {{ $contract }}],
+            data: [{{ $invoice }}, {{ $patientCount }}],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)'
