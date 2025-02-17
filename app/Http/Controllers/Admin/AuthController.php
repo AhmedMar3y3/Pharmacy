@@ -50,6 +50,6 @@ class AuthController extends Controller
     {
         $user = Auth::user();
         $user->tokens()->delete();
-        return redirect()->route('load.login');
+        return redirect()->route('loginPage')->with('success', 'تم تسجيل الخروج بنجاح');
     }
 }
