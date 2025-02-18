@@ -11,12 +11,10 @@ class MedicationImportController extends Controller
 {
     public function import(Request $request)
     {
-        // Validate file input
         $request->validate([
             'file' => 'required|mimes:xlsx,csv',
         ]);
 
-        // Import the Excel file
         Excel::import(new MedicationsImport, $request->file('file'));
 
         return response()->json(['message' => 'Medications imported successfully.']);

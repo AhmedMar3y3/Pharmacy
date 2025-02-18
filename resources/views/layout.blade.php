@@ -60,7 +60,7 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
   <div class="d-flex align-items-center justify-content-between">
     <a href="{{ route('dashboard') }}" class="logo d-flex align-items-center">
-      <span class="d-none d-lg-block" style="margin-right: 15px;">صيدليات مكة</span>
+      <span class="d-none d-lg-block" style="margin-right: 15px;">صيدلية (الاسم)</span>
     </a>
     <i class="bi bi-list toggle-sidebar-btn"></i>
   </div>
@@ -68,29 +68,8 @@
   <!-- Move the profile section to the right -->
   <nav class="header-nav ms-auto"> 
     <ul class="d-flex align-items-center">
-      <li class="nav-item dropdown pe-3">
-        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-          <span class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->name }}</span>
+          <span class="d-none d-md-block ps-2" style="color: black">{{ Auth::user()->name }}</span>
         </a>
-
-        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile"> <!-- Use 'dropdown-menu-end' for right alignment -->
-          <li class="dropdown-header">
-            <h6>{{ Auth::user()->name }}</h6>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-
-          <li>
-            <form method="POST" action="{{ route('logout') }}">
-              @csrf
-              <button type="submit" class="dropdown-item d-flex align-items-center">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>تسجيل الخروج</span>
-              </button>
-            </form>
-          </li>
-        </ul>
       </li>
     </ul>
   </nav>
@@ -142,12 +121,22 @@
         </a>
       </li>
 
-    </li>
     <li class="nav-item">
       <a class="nav-link {{ request()->routeIs('profile.index') ? 'active' : '' }}" href="{{ route('profile.index') }}">
-        <i class="bi bi-fan"></i>
-        <span>الإعدادات<span>  
+      <i class="bi bi-fan"></i>
+      <span>الإعدادات</span>  
       </a>
+    </li>
+
+
+    <li class="nav-item mt-auto">
+      <form method="POST" action="{{ route('logout') }}">
+      @csrf
+      <button type="submit" class="nav-link d-flex align-items-center w-100 text-start">
+        <i class="bi bi-box-arrow-right"></i>
+        <span class="ps-2">تسجيل الخروج</span>
+      </button>
+      </form>
     </li>
     
 

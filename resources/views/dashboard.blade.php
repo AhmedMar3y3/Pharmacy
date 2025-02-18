@@ -17,23 +17,6 @@
             </div>
         </div>
 
-        {{-- <div class="col-lg-4 col-md-6 col-sm-12">
-            <div class="card info-card customers-card">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div>
-                    <h5 class="card-title">عدد العملاء</h5>
-                    <p>{{ $patientCount }}</p>
-                </div>
-                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                        </div>
-                        <div class="ps-3">
-                            <i class="fas fa-users fa-3x"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
 
         <!-- بطاقة عدد الفواتير -->
         <div class="col-lg-4 col-md-6 col-sm-12">

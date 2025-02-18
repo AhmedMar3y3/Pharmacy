@@ -55,7 +55,7 @@
               <div class="card mb-3">
                 <div class="card-body">
                   <div class="pt-4 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">تسجيل الدخول إلى حسابك</h5>
+                    <h5 class="card-title text-center pb-0 fs-4">تسجيل ghhg إلى حسابك</h5>
                     <p class="text-center small">أدخل بريدك الإلكتروني وكلمة المرور لتسجيل الدخول</p>
                   </div>
                   @if (Session::has('success'))
