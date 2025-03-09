@@ -2,11 +2,11 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <h1 style="text-align: center">صيدليات مكة</h1>
+    <h1 style="text-align: center">صيدليات (الاسم)</h1>
     <p style="text-align: center; line-gap-override: 1.6; display: flex; justify-content: center; gap: 20px;">
-        <span>الرقم الضريبي : 253-135-601</span>
-        <span>السجل التجاري : 97810</span>
-        <span>موبايل : 01009333880</span>
+        <span>الرقم الضريبي : 111-111-111</span>
+        <span>السجل التجاري : 11111</span>
+        <span>موبايل : 01010101010</span>
     </p>
     <hr>
     <title>تقرير العقد: {{ $contract->name }} - {{ $monthParam }}</title>

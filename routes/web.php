@@ -36,6 +36,8 @@ Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])->name('inv
 Route::post('/store-invoice', [InvoiceController::class, 'store'])->name('invoices.store');
 Route::get('/invoices', [InvoiceController::class,'index'])->name('invoices.index');
 Route::get('/invoices/{invoice}/print', [InvoiceController::class, 'print'])->name('invoices.print');
+Route::put('/invoices/{invoice}', [InvoiceController::class, 'update'])->name('invoices.update');
+Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
 
 // Client Routes
 Route::get('/clients', [PatientController::class, 'index'])->name('clients.index');

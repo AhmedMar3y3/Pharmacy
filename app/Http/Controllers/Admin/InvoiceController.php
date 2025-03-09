@@ -88,6 +88,65 @@ class InvoiceController extends Controller
         
             return redirect()->route('invoices.index')->with('success', 'تم إنشاء الفاتورة بنجاح');
         }
+
+
+        public function update(Request $request, Invoice $invoice)
+{
+    $request->validate([
+        'patient_id' => 'required|exists:patients,id',
+        'date' => 'required|date',
+        'serial' => 'required|string',
+        'items' => 'required|array|min:1',
+        'items.*.medication_id' => 'required|exists:medications,id',
+        'items.*.quantity' => 'required|numeric|min:0.01',
+        'items.*.type' => 'required|in:local,imported',
+        'items.*.price' => 'required|numeric|min:0',
+    ]);
+
+    $invoice->update([
+        'patient_id' => $request->patient_id,
+        'date' => $request->date,
+        'serial' => $request->serial,
+    ]);
+
+    $invoice->items()->delete(); // Delete existing items
+
+    $totalSupport = 0;
+    $patient = Patient::findOrFail($request->patient_id);
+    $contract = $patient->contract;
+
+    foreach ($request->items as $item) {
+        $medication = Medication::findOrFail($item['medication_id']);
+        if ($medication->price != $item['price']) {
+            $medication->update(['price' => $item['price']]);
+        }
+
+        $discountPercentage = $item['type'] === 'local' ? $contract->local_discount_percentage : $contract->imported_discount_percentage;
+        $supportedPrice = $medication->price * ((100 - $discountPercentage) / 100);
+
+        $invoiceItem = InvoiceItems::create([
+            'invoice_id' => $invoice->id,
+            'medication_id' => $item['medication_id'],
+            'quantity' => $item['quantity'],
+            'price' => $medication->price,
+            'type' => $item['type'],
+            'supported_price' => $supportedPrice
+        ]);
+
+        $totalSupport += $invoiceItem->supported_price * $invoiceItem->quantity;
+    }
+
+    $invoice->update(['total_support' => $totalSupport]);
+
+    return redirect()->route('invoices.index')->with('success', 'تم تعديل الفاتورة بنجاح');
+}
+
+
+public function destroy(Invoice $invoice)
+{
+    $invoice->delete();
+    return redirect()->route('invoices.index')->with('success', 'تم حذف الفاتورة بنجاح');
+}
         
 
 
